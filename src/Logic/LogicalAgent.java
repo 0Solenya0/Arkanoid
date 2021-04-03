@@ -13,11 +13,13 @@ public class LogicalAgent {
     }
 
     public void rightArrowPressed() {
+        gameState.getBoard().changeLength(1);
         gameState.getBoard().move('R');
         agent.updateState(gameState);
     }
 
     public void leftArrowPressed() {
+        gameState.getBoard().changeLength(-1);
         gameState.getBoard().move('L');
         agent.updateState(gameState);
     }
