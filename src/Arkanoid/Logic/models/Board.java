@@ -3,14 +3,19 @@ package Arkanoid.Logic.models;
 import Arkanoid.graphic.MainFrame;
 import Arkanoid.graphic.panels.GamePanel;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Board extends Model {
     public static int defaultLength = 120;
 
+    Timer timer;
     private int xSpeed = 8;
     private int x, length;
     boolean isConfused;
 
     public Board() {
+        timer = new Timer();
         x = 0;
         length = defaultLength;
     }
@@ -42,16 +47,42 @@ public class Board extends Model {
         return length;
     }
 
-    public void changeLength(int t) {
+    public void usePrize(Prize.PrizeType prize) {
         int mid = x + length / 2;
-        if (t <= -1)
-            length = defaultLength * 2 / 3;
-        if (t == 0)
-            length = defaultLength;
-        if (t >= 1)
+        length = defaultLength;
+        x = mid - length / 2;
+        timer.cancel();
+        timer.purge();
+        timer = new Timer();
+
+        if (prize == Prize.PrizeType.EXPANDBOARD) {
             length = defaultLength * 4 / 3;
-         x = mid - length / 2;
-         normalize();
+            x = mid - length / 2;
+            normalize();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    int mid2 = x + length / 2;
+                    length = defaultLength;
+                    x = mid2 - length / 2;
+                    normalize();
+                }
+            }, 6000);
+        }
+        if (prize == Prize.PrizeType.SHRINKBOARD) {
+            length = defaultLength * 2 / 3;
+            x = mid - length / 2;
+            normalize();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    int mid2 = x + length / 2;
+                    length = defaultLength;
+                    x = mid2 - length / 2;
+                    normalize();
+                }
+            }, 6000);
+        }
     }
 
     public int getY() {

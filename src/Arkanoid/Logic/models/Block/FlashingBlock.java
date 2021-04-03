@@ -23,5 +23,6 @@ public class FlashingBlock extends Block {
     public void ballHit() {
         this.delete();
         timer.cancel();
+        timer.purge();
     }
 }

@@ -48,6 +48,7 @@ public abstract class Block extends Model {
     }
 
     public enum Events {
-        DELETE
+        DELETE,
+        ADDPRIZE
     }
 }

@@ -2,10 +2,12 @@ package Arkanoid.graphic.panels;
 
 import Arkanoid.Logic.GameState;
 import Arkanoid.Logic.models.Block.Block;
+import Arkanoid.Logic.models.Prize;
 import Arkanoid.graphic.MainFrame;
 import Arkanoid.graphic.models.GraphicalBall;
 import Arkanoid.graphic.models.GraphicalBlock;
 import Arkanoid.graphic.models.GraphicalBoard;
+import Arkanoid.graphic.models.GraphicalPrize;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +19,7 @@ public class GamePanel extends JPanel {
     GraphicalBoard board;
     GraphicalBall ball;
     ArrayList<GraphicalBlock> graphicalBlocks;
+    ArrayList<GraphicalPrize> graphicalPrizes;
 
     public GamePanel() {
         this.setLayout(null);
@@ -36,6 +39,12 @@ public class GamePanel extends JPanel {
             graphicalBlock.updateState(block);
             graphicalBlocks.add(graphicalBlock);
         }
+        graphicalPrizes = new ArrayList<>();
+        for (Prize prize: state.getPrizes()) {
+            GraphicalPrize graphicalPrize = new GraphicalPrize();
+            graphicalPrize.updateState(prize);
+            graphicalPrizes.add(graphicalPrize);
+        }
         repaint();
     }
 
@@ -47,5 +56,7 @@ public class GamePanel extends JPanel {
         ball.paint(g2d);
         for (GraphicalBlock graphicalBlock: graphicalBlocks)
             graphicalBlock.paint(g2d);
+        for (GraphicalPrize graphicalPrize: graphicalPrizes)
+            graphicalPrize.paint(g2d);
     }
 }
