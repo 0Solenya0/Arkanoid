@@ -9,18 +9,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class Menu extends JPanel implements ActionListener {
+public class MenuPanel extends JPanel implements ActionListener {
 
     private ArrayList<Listener> listeners;
     private JButton btnPlay;
     private JLabel title;
 
-    public Menu() {
+    public MenuPanel() {
         super();
         listeners = new ArrayList<>();
         this.setLayout(null);
         this.setBackground(Color.BLACK);
-        this.setBounds(0,0,400,600);
+        this.setBounds(0,0,MainFrame.FRAME_WIDTH,MainFrame.FRAME_HEIGHT);
 
         btnPlay = new JButton("Play!");
         btnPlay.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
@@ -46,12 +46,10 @@ public class Menu extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println(listeners.size());
         for (Listener listener: listeners) {
             if (e.getSource() == btnPlay)
                 listener.listen(Events.PLAY.toString());
         }
-
     }
 
     public enum Events {

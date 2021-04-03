@@ -1,21 +1,27 @@
 package graphic;
 
-import graphic.panels.Menu;
+import Logic.GameState;
+import graphic.panels.GamePanel;
+import graphic.panels.MenuPanel;
 import Logic.LogicalAgent;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class GraphicalAgent {
     LogicalAgent logicalAgent;
     MainFrame frame;
-    Menu menuPanel;
+    MenuPanel menuPanel;
+    GamePanel gamePanel;
 
     public GraphicalAgent(LogicalAgent logicalAgent) {
         this.logicalAgent = logicalAgent;
         frame = new MainFrame();
-        menuPanel = new Menu();
+        menuPanel = new MenuPanel();
         menuPanel.addListener(new Listener() {
             @Override
             public void listen(String e) {
-                if (Menu.Events.valueOf(e) == Menu.Events.PLAY)
+                if (MenuPanel.Events.valueOf(e) == MenuPanel.Events.PLAY)
                     startGame();
             }
         });
@@ -23,8 +29,32 @@ public class GraphicalAgent {
         frame.repaint();
     }
 
+    public void updateState(GameState gameState) {
+        gamePanel.updateState(gameState);
+    }
+
     public void startGame() {
         frame.remove(menuPanel);
+        gamePanel = new GamePanel();
+        frame.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent keyEvent) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent keyEvent) {
+                if (keyEvent.getKeyCode() == 68) // 'd' character
+                    logicalAgent.rightArrowPressed();
+                else if (keyEvent.getKeyCode() == 65) // 'a' character
+                    logicalAgent.leftArrowPressed();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent keyEvent) {
+            }
+        });
+        frame.add(gamePanel);
         frame.repaint();
+        logicalAgent.startGame();
     }
 }

@@ -1,11 +1,15 @@
 package Logic;
 
-import Logic.Board.Board;
+import Logic.models.Board.Board;
 
 public class GameState {
     private Board board;
 
     public GameState() {
         board = new Board();
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }

@@ -4,8 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame extends JFrame {
-    final int FRAME_WIDTH = 400;
-    final int FRAME_HEIGHT = 600;
+    public static final int FRAME_WIDTH = 400;
+    public static final int FRAME_HEIGHT = 600;
 
     public MainFrame() {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -16,6 +16,7 @@ public class MainFrame extends JFrame {
         this.setTitle("Arkanoid");
         this.setVisible(true);
         this.setLayout(null);
+        this.setFocusable(true);
     }
 
     @Override
