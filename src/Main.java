@@ -1,5 +1,4 @@
-import Graphic.Frames.MenuFrame;
-import Graphic.GraphicalAgent;
+import graphic.GraphicalAgent;
 import Logic.LogicalAgent;
 
 public class Main {

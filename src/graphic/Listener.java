@@ -1,6 +1,4 @@
-package Graphic;
-
-import Graphic.Frames.MenuFrame;
+package graphic;
 
 public interface Listener {
     void listen(String s);

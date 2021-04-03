@@ -1,25 +1,26 @@
-package Graphic.Frames;
+package graphic.panels;
 
-import Graphic.Listener;
+import graphic.Listener;
+import graphic.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
-public class MenuFrame extends MainFrame implements ActionListener {
+public class Menu extends JPanel implements ActionListener {
 
     private ArrayList<Listener> listeners;
     private JButton btnPlay;
     private JLabel title;
 
-    public MenuFrame() {
+    public Menu() {
         super();
         listeners = new ArrayList<>();
         this.setLayout(null);
-        this.getContentPane().setBackground(Color.BLACK);
+        this.setBackground(Color.BLACK);
+        this.setBounds(0,0,400,600);
 
         btnPlay = new JButton("Play!");
         btnPlay.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));

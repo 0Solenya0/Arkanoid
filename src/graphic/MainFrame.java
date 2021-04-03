@@ -1,4 +1,4 @@
-package Graphic.Frames;
+package graphic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +15,14 @@ public class MainFrame extends JFrame {
         this.setResizable(false);
         this.setTitle("Arkanoid");
         this.setVisible(true);
+        this.setLayout(null);
+    }
+
+    @Override
+    public void paint(Graphics graphics) {
+        super.paint(graphics);
+
+        Graphics2D graphics2D = (Graphics2D) graphics;
     }
 
 }
