@@ -5,13 +5,19 @@ import Arkanoid.Logic.models.Model;
 
 public abstract class Block extends Model {
     public static final int YSHIFT = 13, defaultWidth = 50, defaultHeight = 20;
-    private int width = 50, height = 20;
-    private int x, y;
+    protected int width = 50, height = 20;
+    protected int x, y;
+    protected boolean isHitable;
     public Listener listener;
 
     public Block(int x, int y) {
         this.x = x;
         this.y = y;
+        isHitable = true;
+    }
+
+    public boolean isHitable() {
+        return isHitable;
     }
 
     public abstract void ballHit();

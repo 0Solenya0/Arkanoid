@@ -31,7 +31,8 @@ public class LogicalAgent {
             gameState.getBall().move(ms);
             for (int i = 0; i < gameState.getBlocks().size(); i++) {
                 int sz = gameState.getBlocks().size();
-                gameState.getBall().handleBlockCollision(gameState.getBlocks().get(i));
+                if (gameState.getBlocks().get(i).isHitable())
+                    gameState.getBall().handleBlockCollision(gameState.getBlocks().get(i));
                 if (sz > gameState.getBlocks().size())
                     i--;
             }

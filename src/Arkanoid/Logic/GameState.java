@@ -2,9 +2,7 @@ package Arkanoid.Logic;
 
 import Arkanoid.Listener;
 import Arkanoid.Logic.models.Ball;
-import Arkanoid.Logic.models.Block.Block;
-import Arkanoid.Logic.models.Block.GlassBlock;
-import Arkanoid.Logic.models.Block.WoddenBlock;
+import Arkanoid.Logic.models.Block.*;
 import Arkanoid.Logic.models.Board;
 
 import java.util.ArrayList;
@@ -25,7 +23,7 @@ public class GameState {
             block.shiftDown();
         for (int i = 0; i < 7; i++) {
             Block block;
-            block = new WoddenBlock(5 + i * 6 + i * Block.defaultWidth, Block.YSHIFT);
+            block = new FlashingBlock(5 + i * 6 + i * Block.defaultWidth, Block.YSHIFT);
             addBlock(block);
         }
     }
