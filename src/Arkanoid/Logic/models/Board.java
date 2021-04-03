@@ -9,13 +9,15 @@ import java.util.TimerTask;
 public class Board extends Model {
     public static int defaultLength = 120;
 
-    Timer timer;
+    Timer timerLength;
+    Timer timerConfuse;
     private int xSpeed = 8;
     private int x, length;
     boolean isConfused;
 
     public Board() {
-        timer = new Timer();
+        timerLength = new Timer();
+        timerConfuse = new Timer();
         x = 0;
         length = defaultLength;
     }
@@ -51,15 +53,15 @@ public class Board extends Model {
         int mid = x + length / 2;
         length = defaultLength;
         x = mid - length / 2;
-        timer.cancel();
-        timer.purge();
-        timer = new Timer();
+        timerLength.cancel();
+        timerLength.purge();
+        timerLength = new Timer();
 
         if (prize == Prize.PrizeType.EXPANDBOARD) {
             length = defaultLength * 4 / 3;
             x = mid - length / 2;
             normalize();
-            timer.schedule(new TimerTask() {
+            timerLength.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     int mid2 = x + length / 2;
@@ -73,7 +75,7 @@ public class Board extends Model {
             length = defaultLength * 2 / 3;
             x = mid - length / 2;
             normalize();
-            timer.schedule(new TimerTask() {
+            timerLength.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     int mid2 = x + length / 2;
@@ -93,7 +95,17 @@ public class Board extends Model {
         return x;
     }
 
-    public void setConfused(boolean confused) {
-        isConfused = confused;
+    public void Confuse() {
+        isConfused = true;
+        timerConfuse.cancel();
+        timerConfuse.purge();
+        timerConfuse = new Timer();
+
+        timerConfuse.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                isConfused = false;
+            }
+        }, 5000);
     }
 }

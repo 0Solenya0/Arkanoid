@@ -32,7 +32,7 @@ public class GameState {
             block.shiftDown();
         for (int i = 0; i < 6; i++) {
             Block block;
-            block = new PrizeBlock(12 + i * 15 + i * Block.defaultWidth, Block.YSHIFT, Prize.PrizeType.EXPANDBOARD);
+            block = new PrizeBlock(12 + i * 15 + i * Block.defaultWidth, Block.YSHIFT, Prize.PrizeType.CONFUSEBOARD);
             addBlock(block);
         }
     }
@@ -87,6 +87,9 @@ public class GameState {
                 break;
             case SHRINKBOARD:
                 board.usePrize(Prize.PrizeType.SHRINKBOARD);
+                break;
+            case CONFUSEBOARD:
+                board.Confuse();
                 break;
         }
     }
