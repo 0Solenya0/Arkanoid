@@ -1,6 +1,6 @@
 package graphic.models;
 
-import Logic.models.Board.Board;
+import Logic.models.Board;
 
 import java.awt.*;
 
@@ -16,7 +16,7 @@ public class GraphicalBoard extends GraphicalModel {
 
     public void updateState(Board board) {
         this.x = board.getX();
-        this.length = board.getLenght();
+        this.length = board.getLength();
     }
 
     @Override

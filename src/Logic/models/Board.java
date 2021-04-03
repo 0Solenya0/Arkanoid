@@ -1,4 +1,4 @@
-package Logic.models.Board;
+package Logic.models;
 
 import graphic.MainFrame;
 
@@ -37,7 +37,7 @@ public class Board {
         normalize();
     }
 
-    public int getLenght() {
+    public int getLength() {
         return length;
     }
 
