@@ -1,7 +1,5 @@
-import graphic.GraphicalAgent;
-import Logic.LogicalAgent;
-
-import javax.swing.*;
+import Arkanoid.graphic.GraphicalAgent;
+import Arkanoid.Logic.LogicalAgent;
 
 public class Main {
 

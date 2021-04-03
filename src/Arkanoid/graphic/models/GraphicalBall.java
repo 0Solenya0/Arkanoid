@@ -1,12 +1,11 @@
-package graphic.models;
+package Arkanoid.graphic.models;
 
-import Logic.models.Ball;
+import Arkanoid.Logic.models.Ball;
+import Arkanoid.Logic.models.Model;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.net.URL;
 
 public class GraphicalBall extends GraphicalModel {
 
@@ -25,7 +24,8 @@ public class GraphicalBall extends GraphicalModel {
         this.y = y;
     }
 
-    public void updateState(Ball ball) {
+    public void updateState(Model model) {
+        Ball ball = (Ball) model;
         this.x = (int) ball.getX();
         this.y = (int) ball.getY();
     }

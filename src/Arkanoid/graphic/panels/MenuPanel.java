@@ -1,7 +1,7 @@
-package graphic.panels;
+package Arkanoid.graphic.panels;
 
-import graphic.Listener;
-import graphic.MainFrame;
+import Arkanoid.Listener;
+import Arkanoid.graphic.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;

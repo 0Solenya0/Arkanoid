@@ -1,7 +1,6 @@
-package Logic;
+package Arkanoid.Logic;
 
-import Logic.models.Block.Block;
-import graphic.GraphicalAgent;
+import Arkanoid.Logic.models.Block.Block;
 
 import java.util.ArrayList;
 
@@ -12,6 +11,7 @@ public class LogicalAgent {
     public LogicalAgent() {
         isGameStarted = false;
         gameState = new GameState();
+        gameState.addBlockRow();
     }
 
     public void rightArrowPressed() {
@@ -26,11 +26,15 @@ public class LogicalAgent {
         isGameStarted = true;
     }
 
-    public void moveBall(int ms) {
+    public void timePassed(int ms) {
         if (isGameStarted) {
             gameState.getBall().move(ms);
-            for (Block block: gameState.getBlocks())
-                gameState.getBall().handleBlockCollision(block);
+            for (int i = 0; i < gameState.getBlocks().size(); i++) {
+                int sz = gameState.getBlocks().size();
+                gameState.getBall().handleBlockCollision(gameState.getBlocks().get(i));
+                if (sz > gameState.getBlocks().size())
+                    i--;
+            }
         }
     }
 

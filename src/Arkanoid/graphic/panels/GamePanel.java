@@ -1,18 +1,22 @@
-package graphic.panels;
+package Arkanoid.graphic.panels;
 
-import Logic.GameState;
-import graphic.MainFrame;
-import graphic.models.GraphicalBall;
-import graphic.models.GraphicalBoard;
+import Arkanoid.Logic.GameState;
+import Arkanoid.Logic.models.Block.Block;
+import Arkanoid.graphic.MainFrame;
+import Arkanoid.graphic.models.GraphicalBall;
+import Arkanoid.graphic.models.GraphicalBlock;
+import Arkanoid.graphic.models.GraphicalBoard;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel {
     public static final int defaultBoardH = 450;
 
     GraphicalBoard board;
     GraphicalBall ball;
+    ArrayList<GraphicalBlock> graphicalBlocks;
 
     public GamePanel() {
         this.setLayout(null);
@@ -26,6 +30,12 @@ public class GamePanel extends JPanel {
     public void updateState(GameState state) {
         board.updateState(state.getBoard());
         ball.updateState(state.getBall());
+        graphicalBlocks = new ArrayList<>();
+        for (Block block: state.getBlocks()) {
+            GraphicalBlock graphicalBlock = new GraphicalBlock();
+            graphicalBlock.updateState(block);
+            graphicalBlocks.add(graphicalBlock);
+        }
         repaint();
     }
 
@@ -35,5 +45,7 @@ public class GamePanel extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         board.paint(g2d);
         ball.paint(g2d);
+        for (GraphicalBlock graphicalBlock: graphicalBlocks)
+            graphicalBlock.paint(g2d);
     }
 }

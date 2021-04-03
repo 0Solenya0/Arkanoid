@@ -1,4 +1,4 @@
-package graphic;
+package Arkanoid.graphic;
 
 import javax.swing.*;
 import java.awt.*;

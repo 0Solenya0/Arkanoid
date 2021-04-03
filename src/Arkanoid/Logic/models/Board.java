@@ -1,9 +1,9 @@
-package Logic.models;
+package Arkanoid.Logic.models;
 
-import graphic.MainFrame;
-import graphic.panels.GamePanel;
+import Arkanoid.graphic.MainFrame;
+import Arkanoid.graphic.panels.GamePanel;
 
-public class Board {
+public class Board extends Model {
     public static int defaultLength = 120;
 
     private int xSpeed = 8;

@@ -1,9 +1,10 @@
-package graphic;
+package Arkanoid.graphic;
 
-import Logic.GameState;
-import graphic.panels.GamePanel;
-import graphic.panels.MenuPanel;
-import Logic.LogicalAgent;
+import Arkanoid.Listener;
+import Arkanoid.Logic.GameState;
+import Arkanoid.graphic.panels.GamePanel;
+import Arkanoid.graphic.panels.MenuPanel;
+import Arkanoid.Logic.LogicalAgent;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -12,7 +13,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class GraphicalAgent {
-    public static final int fps = 30;
+    public static final int fps = 24;
     LogicalAgent logicalAgent;
     MainFrame frame;
     MenuPanel menuPanel;
@@ -71,9 +72,9 @@ public class GraphicalAgent {
             @Override
             public void run() {
                 Toolkit.getDefaultToolkit().sync(); //Fixes Linux Lag
-                logicalAgent.moveBall(1000 / fps);
+                logicalAgent.timePassed(1000 / fps);
                 updateState(logicalAgent.getGameState());
             }
-        }, 1000 / fps, 1000 / fps);
+        }, 0, 1000 / fps);
     }
 }

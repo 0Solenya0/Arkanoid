@@ -1,6 +1,7 @@
-package graphic.models;
+package Arkanoid.graphic.models;
 
-import Logic.models.Board;
+import Arkanoid.Logic.models.Board;
+import Arkanoid.Logic.models.Model;
 
 import java.awt.*;
 
@@ -14,7 +15,8 @@ public class GraphicalBoard extends GraphicalModel {
         this.length = Board.defaultLength;
     }
 
-    public void updateState(Board board) {
+    public void updateState(Model model) {
+        Board board = (Board) model;
         this.x = board.getX();
         this.length = board.getLength();
     }
