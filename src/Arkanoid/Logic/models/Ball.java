@@ -16,10 +16,12 @@ public class Ball extends Model {
                     !(prvx > b.getX() + b.getWidth() || prvx + w < b.getX())) {
                 ySpeed *= -1;
                 b.ballHit();
+                move(30);
             }
             else if ((xSpeed > 0 && x > b.getX()) || (xSpeed < 0 && x < b.getX() + b.getWidth())) {
                 xSpeed *= -1;
                 b.ballHit();
+                move(30);
             }
         }
     }
