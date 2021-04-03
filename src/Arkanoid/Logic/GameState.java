@@ -21,9 +21,9 @@ public class GameState {
     public void addBlockRow() {
         for (Block block: blocks)
             block.shiftDown();
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 6; i++) {
             Block block;
-            block = new FlashingBlock(5 + i * 6 + i * Block.defaultWidth, Block.YSHIFT);
+            block = new GlassBlock(12 + i * 15 + i * Block.defaultWidth, Block.YSHIFT);
             addBlock(block);
         }
     }
