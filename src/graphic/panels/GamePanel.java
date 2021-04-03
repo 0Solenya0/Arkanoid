@@ -25,7 +25,7 @@ public class GamePanel extends JPanel {
     }
 
     public void updateState(GameState state) {
-        board.update(state.getBoard().getX());
+        board.updateState(state.getBoard());
         repaint();
     }
 

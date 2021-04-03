@@ -1,17 +1,20 @@
 package graphic.models;
 
+import Logic.models.Board.Board;
+
 import java.awt.*;
 
 public class GraphicalBoard extends GraphicalModel {
-    private int x, y;
+    private int x;
+    private final int y;
 
     public GraphicalBoard(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public void update(int x) {
-        this.x = x;
+    public void updateState(Board board) {
+        this.x = board.getX();
     }
 
     @Override
