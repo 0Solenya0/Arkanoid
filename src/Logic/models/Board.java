@@ -1,6 +1,7 @@
 package Logic.models;
 
 import graphic.MainFrame;
+import graphic.panels.GamePanel;
 
 public class Board {
     public static int defaultLength = 120;
@@ -51,6 +52,10 @@ public class Board {
             length = defaultLength * 4 / 3;
          x = mid - length / 2;
          normalize();
+    }
+
+    public int getY() {
+        return GamePanel.defaultBoardH;
     }
 
     public int getX() {

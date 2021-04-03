@@ -1,6 +1,9 @@
 package Logic;
 
+import Logic.models.Block.Block;
 import graphic.GraphicalAgent;
+
+import java.util.ArrayList;
 
 public class LogicalAgent {
     private GameState gameState;
@@ -24,8 +27,11 @@ public class LogicalAgent {
     }
 
     public void moveBall(int ms) {
-        if (isGameStarted)
+        if (isGameStarted) {
             gameState.getBall().move(ms);
+            for (Block block: gameState.getBlocks())
+                gameState.getBall().handleBlockCollision(block);
+        }
     }
 
     public GameState getGameState() {

@@ -1,5 +1,6 @@
 package Logic.models;
 
+import Logic.models.Block.Block;
 import graphic.MainFrame;
 import graphic.panels.GamePanel;
 
@@ -8,6 +9,21 @@ public class Ball {
 
     private double xSpeed = 1, ySpeed = 1;
     private int x, y, w, h, lives;
+
+    public void handleBlockCollision(Block b) {
+        if (b.getX() < x + w && x < b.getX() + b.getWidth()) {
+            if ((ySpeed > 0 && y < b.getY() + b.getHeight()) || (ySpeed < 0 && y > b.getY())) {
+                ySpeed *= -1;
+                b.ballHit();
+            }
+        }
+        if (b.getY() < y + h && y < b.getY() + b.getHeight()) {
+            if ((xSpeed > 0 && x > b.getX()) || (xSpeed < 0 && x < b.getX() + b.getWidth())) {
+                xSpeed *= -1;
+                b.ballHit();
+            }
+        }
+    }
 
     public Ball(int x, int y) {
         this.x = x;
