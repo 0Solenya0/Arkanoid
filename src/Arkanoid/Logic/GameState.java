@@ -43,7 +43,7 @@ public class GameState {
         for (Ball ball: balls)
             ball.start();
         for (Prize prize: prizes)
-            prize.fall(this);
+            prize.fall();
     }
 
     public void addBlockRow() {
@@ -88,7 +88,7 @@ public class GameState {
             }
         };
         prizes.add(prize);
-        prize.fall(this);
+        prize.fall();
     }
 
     public ArrayList<Ball> getBalls() {

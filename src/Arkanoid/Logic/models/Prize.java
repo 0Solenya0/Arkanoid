@@ -22,6 +22,32 @@ public class Prize extends Model {
         this.type = type;
     }
 
+    public boolean collideWithBoard(Board board) {
+        if (y > GamePanel.defaultBoardH) {
+            delete();
+            if (board.getX() < x + w && x < board.getX() + board.getLength())
+                return true;
+        }
+        return false;
+    }
+
+    public void fall() {
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                y += 2;
+            }
+        }, 0, 30);
+    }
+
+    public void delete() {
+        timer.cancel();
+        timer.purge();
+        if (listener != null)
+            listener.listen(Events.DELETE.toString());
+    }
+
     public int getX() {
         return x;
     }
@@ -38,27 +64,10 @@ public class Prize extends Model {
         return h;
     }
 
-    public void fall(GameState state) {
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                y += 2;
-                if (y > GamePanel.defaultBoardH) {
-                    if (state.getBoard().getX() < x + w && x < state.getBoard().getX() + state.getBoard().getLength())
-                        state.usePrize(type);
-                    delete();
-                }
-            }
-        }, 0, 1000 / GraphicalAgent.fps);
+    public PrizeType getType() {
+        return type;
     }
 
-    public void delete() {
-        timer.cancel();
-        timer.purge();
-        if (listener != null)
-            listener.listen(Events.DELETE.toString());
-    }
 
     public enum PrizeType {
         SHRINKBOARD,

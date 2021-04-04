@@ -2,6 +2,7 @@ package Arkanoid.Logic;
 
 import Arkanoid.Logic.models.Ball;
 import Arkanoid.Logic.models.Block.Block;
+import Arkanoid.Logic.models.Prize;
 import Arkanoid.graphic.GraphicalAgent;
 
 import java.awt.event.KeyEvent;
@@ -27,7 +28,7 @@ public class LogicalAgent implements KeyListener {
         gameState.initialSetup();
         gameState.setPlayer(player);
         gameState.start();
-        
+
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -45,15 +46,26 @@ public class LogicalAgent implements KeyListener {
 
     public void checkLogic() {
         if (isGameStarted) {
-            for (Ball ball: gameState.getBalls()) {
-                for (int i = 0; i < gameState.getBlocks().size(); i++) {
-                    int sz = gameState.getBlocks().size();
-                    if (gameState.getBlocks().get(i).isHitable())
-                        ball.handleBlockCollision(gameState.getBlocks().get(i));
-                    if (sz > gameState.getBlocks().size())
-                        i--;
-                }
+            checkBallLogic();
+            checkPrizeLogic();
+        }
+    }
+
+    public void checkBallLogic() {
+        for (Ball ball: gameState.getBalls()) {
+            ArrayList<Block> blocks = new ArrayList<>(gameState.getBlocks());
+            for (Block block: blocks) {
+                if (block.isHitable() && ball.bounceIfCollide(block))
+                    block.ballHit();
             }
+        }
+    }
+
+    public void checkPrizeLogic() {
+        ArrayList<Prize> prizes = new ArrayList<>(gameState.getPrizes());
+        for (Prize prize: prizes) {
+            if (prize.collideWithBoard(gameState.getBoard()))
+                gameState.usePrize(prize.getType());
         }
     }
 

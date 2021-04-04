@@ -26,20 +26,19 @@ public class Ball extends Model {
         lives = 3;
     }
 
-    public void handleBlockCollision(Block b) {
+    public boolean bounceIfCollide(Block b) {
         if ((b.getX() < x + w && x < b.getX() + b.getWidth()) && (b.getY() < y + h && y < b.getY() + b.getHeight())) {
             if (((ySpeed > 0 && y < b.getY() + b.getHeight()) || (ySpeed < 0 && y > b.getY())) &&
                     !(prvx > b.getX() + b.getWidth() || prvx + w < b.getX())) {
                 ySpeed *= -1;
-                b.ballHit();
-                move(30);
+                return true;
             }
             else if ((xSpeed > 0 && x > b.getX()) || (xSpeed < 0 && x < b.getX() + b.getWidth())) {
                 xSpeed *= -1;
-                b.ballHit();
-                move(30);
+                return true;
             }
         }
+        return false;
     }
 
     public void Bounce() {
