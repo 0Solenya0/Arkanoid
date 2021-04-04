@@ -4,11 +4,27 @@ import Arkanoid.Logic.models.Block.Block;
 import Arkanoid.graphic.MainFrame;
 import Arkanoid.graphic.panels.GamePanel;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Ball extends Model {
     public static int defaultW = 15, defaultH = 15;
 
+    Timer timerSpeed;
     private double xSpeed = 1, ySpeed = -1;
-    private int prvx, prvy, x, y, w, h, lives;
+    private double prvx, prvy, x, y;
+    int w, h, lives;
+
+    public Ball(int x, int y) {
+        timerSpeed = new Timer();
+        this.x = x;
+        this.y = y;
+        prvx = x;
+        prvy = y;
+        w = defaultW;
+        h = defaultH;
+        lives = 3;
+    }
 
     public void handleBlockCollision(Block b) {
         if ((b.getX() < x + w && x < b.getX() + b.getWidth()) && (b.getY() < y + h && y < b.getY() + b.getHeight())) {
@@ -24,16 +40,6 @@ public class Ball extends Model {
                 move(30);
             }
         }
-    }
-
-    public Ball(int x, int y) {
-        this.x = x;
-        this.y = y;
-        prvx = x;
-        prvy = y;
-        w = defaultW;
-        h = defaultH;
-        lives = 3;
     }
 
     public void Bounce() {
@@ -57,11 +63,42 @@ public class Ball extends Model {
         Bounce();
     }
 
-    public double getX() {
-        return x;
+    public int getX() {
+        return (int) x;
     }
 
-    public double getY() {
-        return y;
+    public int getY() {
+        return (int) y;
+    }
+
+    public void usePrize(Prize.PrizeType prize) {
+        xSpeed /= Math.abs(xSpeed);
+        ySpeed /= Math.abs(ySpeed);
+        timerSpeed.cancel();
+        timerSpeed.purge();
+        timerSpeed = new Timer();
+
+        if (prize.equals(Prize.PrizeType.FASTBALL)) {
+            xSpeed *= 2.5;
+            ySpeed *= 2.5;
+            timerSpeed.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    xSpeed /= Math.abs(xSpeed);
+                    ySpeed /= Math.abs(ySpeed);
+                }
+            }, 6000);
+        }
+        if (prize.equals(Prize.PrizeType.SLOWBALL)) {
+            xSpeed *= 0.5;
+            ySpeed *= 0.5;
+            timerSpeed.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    xSpeed /= Math.abs(xSpeed);
+                    ySpeed /= Math.abs(ySpeed);
+                }
+            }, 6000);
+        }
     }
 }

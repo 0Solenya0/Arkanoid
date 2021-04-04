@@ -12,15 +12,17 @@ import java.util.Scanner;
 
 public class GameState {
     private Board board;
-    private Ball ball;
+    private ArrayList<Ball> balls;
     private ArrayList<Block> blocks;
     private ArrayList<Prize> prizes;
 
     public GameState() {
         blocks = new ArrayList<>();
         prizes = new ArrayList<>();
+        balls = new ArrayList<>();
         board = new Board();
-        ball = new Ball(board.getX() + board.getLength() / 2, board.getY() - Ball.defaultH);
+        Ball ball = new Ball(board.getX() + board.getLength() / 2, board.getY() - Ball.defaultH);
+        balls.add(ball);
     }
 
     public ArrayList<Prize> getPrizes() {
@@ -32,7 +34,7 @@ public class GameState {
             block.shiftDown();
         for (int i = 0; i < 6; i++) {
             Block block;
-            block = new PrizeBlock(12 + i * 15 + i * Block.defaultWidth, Block.YSHIFT, Prize.PrizeType.CONFUSEBOARD);
+            block = new PrizeBlock(12 + i * 15 + i * Block.defaultWidth, Block.YSHIFT, Prize.PrizeType.SLOWBALL);
             addBlock(block);
         }
     }
@@ -72,8 +74,8 @@ public class GameState {
         prize.fall(this);
     }
 
-    public Ball getBall() {
-        return ball;
+    public ArrayList<Ball> getBalls() {
+        return balls;
     }
 
     public Board getBoard() {
@@ -90,6 +92,14 @@ public class GameState {
                 break;
             case CONFUSEBOARD:
                 board.Confuse();
+                break;
+            case FASTBALL:
+                for(Ball ball: balls)
+                    ball.usePrize(Prize.PrizeType.FASTBALL);
+                break;
+            case SLOWBALL:
+                for (Ball ball: balls)
+                    ball.usePrize(Prize.PrizeType.SLOWBALL);
                 break;
         }
     }

@@ -63,7 +63,9 @@ public class Prize extends Model {
     public enum PrizeType {
         SHRINKBOARD,
         EXPANDBOARD,
-        CONFUSEBOARD
+        CONFUSEBOARD,
+        FASTBALL,
+        SLOWBALL
     }
 
     public enum Events {

@@ -1,6 +1,7 @@
 package Arkanoid.graphic.panels;
 
 import Arkanoid.Logic.GameState;
+import Arkanoid.Logic.models.Ball;
 import Arkanoid.Logic.models.Block.Block;
 import Arkanoid.Logic.models.Prize;
 import Arkanoid.graphic.MainFrame;
@@ -12,12 +13,13 @@ import Arkanoid.graphic.models.GraphicalPrize;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GamePanel extends JPanel {
     public static final int defaultBoardH = 450;
 
     GraphicalBoard board;
-    GraphicalBall ball;
+    ArrayList<GraphicalBall> balls;
     ArrayList<GraphicalBlock> graphicalBlocks;
     ArrayList<GraphicalPrize> graphicalPrizes;
 
@@ -27,12 +29,16 @@ public class GamePanel extends JPanel {
         this.setBounds(0,0, MainFrame.FRAME_WIDTH,MainFrame.FRAME_HEIGHT);
 
         board = new GraphicalBoard(0, defaultBoardH);
-        ball = new GraphicalBall(100, 100);
     }
 
     public void updateState(GameState state) {
         board.updateState(state.getBoard());
-        ball.updateState(state.getBall());
+        balls = new ArrayList<>();
+        for (Ball ball: state.getBalls()) {
+            GraphicalBall graphicalBall = new GraphicalBall();
+            graphicalBall.updateState(ball);
+            balls.add(graphicalBall);
+        }
         graphicalBlocks = new ArrayList<>();
         for (Block block: state.getBlocks()) {
             GraphicalBlock graphicalBlock = new GraphicalBlock();
@@ -53,7 +59,8 @@ public class GamePanel extends JPanel {
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
         board.paint(g2d);
-        ball.paint(g2d);
+        for (GraphicalBall graphicalBall: balls)
+            graphicalBall.paint(g2d);
         for (GraphicalBlock graphicalBlock: graphicalBlocks)
             graphicalBlock.paint(g2d);
         for (GraphicalPrize graphicalPrize: graphicalPrizes)

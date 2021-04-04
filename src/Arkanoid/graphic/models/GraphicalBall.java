@@ -12,7 +12,7 @@ public class GraphicalBall extends GraphicalModel {
     private int x, y;
     Image img;
 
-    public GraphicalBall(int x, int y) {
+    public GraphicalBall() {
         try {
             img = ImageIO.read(new File("./resources/ball.png"));
             img = img.getScaledInstance(Ball.defaultW, Ball.defaultH, Image.SCALE_DEFAULT);
@@ -20,8 +20,6 @@ public class GraphicalBall extends GraphicalModel {
         catch (Exception e) {
             System.out.println("wow");
         }
-        this.x = x;
-        this.y = y;
     }
 
     public void updateState(Model model) {
