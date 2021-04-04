@@ -10,13 +10,14 @@ import java.util.TimerTask;
 public class Ball extends Model {
     public static int defaultW = 15, defaultH = 15;
 
-    Timer timerSpeed, timerMovement;
+    private final Task taskNormalizeSpeed = new Task(this::setSpeedToNormal);
+
+    Timer timerMovement;
     private double xSpeed = 1, ySpeed = -1;
     private double prvx, prvy, x, y;
     int w, h, lives;
 
     public Ball(int x, int y) {
-        timerSpeed = new Timer();
         this.x = x;
         this.y = y;
         prvx = x;
@@ -73,34 +74,22 @@ public class Ball extends Model {
     }
 
     public void usePrize(Prize.PrizeType prize) {
-        xSpeed /= Math.abs(xSpeed);
-        ySpeed /= Math.abs(ySpeed);
-        timerSpeed.cancel();
-        timerSpeed.purge();
-        timerSpeed = new Timer();
-
         if (prize.equals(Prize.PrizeType.FASTBALL)) {
+            setSpeedToNormal();
             xSpeed *= 2.5;
             ySpeed *= 2.5;
-            timerSpeed.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    xSpeed /= Math.abs(xSpeed);
-                    ySpeed /= Math.abs(ySpeed);
-                }
-            }, 6000);
         }
         if (prize.equals(Prize.PrizeType.SLOWBALL)) {
+            setSpeedToNormal();
             xSpeed *= 0.5;
             ySpeed *= 0.5;
-            timerSpeed.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    xSpeed /= Math.abs(xSpeed);
-                    ySpeed /= Math.abs(ySpeed);
-                }
-            }, 6000);
         }
+        taskNormalizeSpeed.renewTask(6000);
+    }
+
+    public void setSpeedToNormal() {
+        xSpeed /= Math.abs(xSpeed);
+        ySpeed /= Math.abs(ySpeed);
     }
 
     public int getX() {

@@ -9,15 +9,14 @@ import java.util.TimerTask;
 public class Board extends Model {
     public static int defaultLength = 120;
 
-    Timer timerLength;
-    Timer timerConfuse;
+    final private Task taskNormalizeLength = new Task(this::setLengthToNormal);
+    final private Task taskNormalizeConfuse = new Task(this::setConfusedToNormal);
+
     private int xSpeed = 8;
     private int x, length;
     boolean isConfused;
 
     public Board() {
-        timerLength = new Timer();
-        timerConfuse = new Timer();
         x = 0;
         length = defaultLength;
     }
@@ -45,46 +44,39 @@ public class Board extends Model {
         normalize();
     }
 
-    public int getLength() {
-        return length;
+    public void Confuse() {
+        isConfused = true;
+        taskNormalizeConfuse.renewTask(5000);
     }
 
     public void usePrize(Prize.PrizeType prize) {
         int mid = x + length / 2;
-        length = defaultLength;
-        x = mid - length / 2;
-        timerLength.cancel();
-        timerLength.purge();
-        timerLength = new Timer();
-
         if (prize == Prize.PrizeType.EXPANDBOARD) {
             length = defaultLength * 4 / 3;
             x = mid - length / 2;
             normalize();
-            timerLength.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    int mid2 = x + length / 2;
-                    length = defaultLength;
-                    x = mid2 - length / 2;
-                    normalize();
-                }
-            }, 6000);
         }
         if (prize == Prize.PrizeType.SHRINKBOARD) {
             length = defaultLength * 2 / 3;
             x = mid - length / 2;
             normalize();
-            timerLength.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    int mid2 = x + length / 2;
-                    length = defaultLength;
-                    x = mid2 - length / 2;
-                    normalize();
-                }
-            }, 6000);
         }
+        taskNormalizeLength.renewTask(6000);
+    }
+
+    public void setConfusedToNormal() {
+        isConfused = false;
+    }
+
+    public void setLengthToNormal() {
+        int mid = x + length / 2;
+        length = defaultLength;
+        x = mid - length / 2;
+        normalize();
+    }
+
+    public int getLength() {
+        return length;
     }
 
     public int getY() {
@@ -93,19 +85,5 @@ public class Board extends Model {
 
     public int getX() {
         return x;
-    }
-
-    public void Confuse() {
-        isConfused = true;
-        timerConfuse.cancel();
-        timerConfuse.purge();
-        timerConfuse = new Timer();
-
-        timerConfuse.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                isConfused = false;
-            }
-        }, 5000);
     }
 }
