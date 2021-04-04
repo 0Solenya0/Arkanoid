@@ -56,7 +56,7 @@ public class GameState {
             block.shiftDown();
         for (int i = 0; i < 6; i++) {
             Block block;
-            block = new PrizeBlock(12 + i * 15 + i * Block.defaultWidth, Block.YSHIFT, Prize.PrizeType.MULTIBALL);
+            block = new PrizeBlock(12 + i * 15 + i * Block.defaultWidth, Block.YSHIFT, Prize.PrizeType.FIREBALL);
             addBlock(block);
         }
     }
@@ -127,6 +127,11 @@ public class GameState {
                 Ball ball2 = newBall();
                 ball2.setxSpeed(-ball2.getxSpeed());
                 start();
+                break;
+            case FIREBALL:
+                ArrayList<Ball> balls1 = new ArrayList<>(balls);
+                for (Ball ball: balls1)
+                    ball.usePrize(prize);
                 break;
         }
     }

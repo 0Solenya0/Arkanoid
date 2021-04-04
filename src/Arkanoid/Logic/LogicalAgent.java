@@ -2,6 +2,7 @@ package Arkanoid.Logic;
 
 import Arkanoid.Logic.models.Ball;
 import Arkanoid.Logic.models.Block.Block;
+import Arkanoid.Logic.models.Block.WoddenBlock;
 import Arkanoid.Logic.models.Prize;
 import Arkanoid.graphic.GraphicalAgent;
 
@@ -59,8 +60,11 @@ public class LogicalAgent implements KeyListener {
         for (Ball ball: gameState.getBalls()) {
             ArrayList<Block> blocks = new ArrayList<>(gameState.getBlocks());
             for (Block block: blocks) {
-                if (block.isHitable() && ball.bounceIfCollide(block))
+                if (block.isHitable() && ball.bounceIfCollide(block)) {
                     block.ballHit();
+                    if (ball.isOnFire() && block instanceof WoddenBlock)
+                        block.ballHit();
+                }
             }
         }
         if (gameState.getBalls().isEmpty()) {

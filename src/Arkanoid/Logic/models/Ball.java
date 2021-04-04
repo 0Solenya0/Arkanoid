@@ -12,12 +12,14 @@ public class Ball extends Model {
     public static int defaultW = 15, defaultH = 15;
 
     private final Task taskNormalizeSpeed = new Task(this::setSpeedToNormal);
+    private final Task taskNormalizeFire = new Task(this::setOnFireToNormal);
 
     Timer timerMovement = new Timer();
     private double xSpeed = 1, ySpeed = -1;
     private double prvx, prvy, x, y;
     public Listener listener;
     private int w, h;
+    private boolean isOnFire;
 
     public Ball(int x, int y) {
         this.x = x;
@@ -32,11 +34,13 @@ public class Ball extends Model {
         if ((b.getX() < x + w && x < b.getX() + b.getWidth()) && (b.getY() < y + h && y < b.getY() + b.getHeight())) {
             if (((ySpeed > 0 && y < b.getY() + b.getHeight()) || (ySpeed < 0 && y > b.getY())) &&
                     !(prvx > b.getX() + b.getWidth() || prvx + w < b.getX())) {
-                ySpeed *= -1;
+                if (!isOnFire)
+                    ySpeed *= -1;
                 return true;
             }
             else if ((xSpeed > 0 && x > b.getX()) || (xSpeed < 0 && x < b.getX() + b.getWidth())) {
-                xSpeed *= -1;
+                if (!isOnFire)
+                    xSpeed *= -1;
                 return true;
             }
         }
@@ -81,13 +85,22 @@ public class Ball extends Model {
             setSpeedToNormal();
             xSpeed *= 2.5;
             ySpeed *= 2.5;
+            taskNormalizeSpeed.renewTask(6000);
         }
         if (prize.equals(Prize.PrizeType.SLOWBALL)) {
             setSpeedToNormal();
             xSpeed *= 0.5;
             ySpeed *= 0.5;
+            taskNormalizeSpeed.renewTask(6000);
         }
-        taskNormalizeSpeed.renewTask(6000);
+        if (prize.equals(Prize.PrizeType.FIREBALL)) {
+            isOnFire = true;
+            taskNormalizeFire.renewTask(2000);
+        }
+    }
+
+    public void setOnFireToNormal() {
+        isOnFire = false;
     }
 
     public void setSpeedToNormal() {
@@ -101,6 +114,10 @@ public class Ball extends Model {
         taskNormalizeSpeed.disable();
         if (listener != null)
             listener.listen(Events.DELETE.toString());
+    }
+
+    public boolean isOnFire() {
+        return isOnFire;
     }
 
     public int getX() {
