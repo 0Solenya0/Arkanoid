@@ -2,7 +2,9 @@ package Arkanoid.graphic;
 
 import Arkanoid.Listener;
 import Arkanoid.Logic.GameState;
+import Arkanoid.Logic.Player;
 import Arkanoid.graphic.panels.GamePanel;
+import Arkanoid.graphic.panels.GetPlayer;
 import Arkanoid.graphic.panels.MenuPanel;
 import Arkanoid.Logic.LogicalAgent;
 
@@ -47,34 +49,48 @@ public class GraphicalAgent {
 
     public void startGame() {
         frame.remove(menuPanel);
-        gamePanel = new GamePanel();
-        frame.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent keyEvent) {
-            }
-
-            @Override
-            public void keyPressed(KeyEvent keyEvent) {
-                if (keyEvent.getKeyCode() == 68) // 'd' character
-                    logicalAgent.rightArrowPressed();
-                else if (keyEvent.getKeyCode() == 65) // 'a' character
-                    logicalAgent.leftArrowPressed();
-            }
-
-            @Override
-            public void keyReleased(KeyEvent keyEvent) {
-            }
-        });
-        frame.add(gamePanel);
+        GetPlayer getPlayer = new GetPlayer();
+        frame.add(getPlayer);
+        frame.setSize(new Dimension(MainFrame.FRAME_WIDTH, GetPlayer.GETPLAYERPANELH));
         frame.repaint();
-        logicalAgent.startGame();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Toolkit.getDefaultToolkit().sync(); //Fixes Linux Lag
-                logicalAgent.timePassed(1000 / fps);
-                updateState(logicalAgent.getGameState());
-            }
-        }, 0, 1000 / fps);
+
+        getPlayer.addListener(s -> {
+            frame.remove(getPlayer);
+            //TO DO : GET OR CREATE THE PLAYER
+            Player tmp = new Player(s);
+
+            frame.setSize(new Dimension(MainFrame.FRAME_WIDTH, MainFrame.FRAME_HEIGHT));
+            gamePanel = new GamePanel();
+            frame.addKeyListener(new KeyListener() {
+                @Override
+                public void keyTyped(KeyEvent keyEvent) {
+                }
+
+                @Override
+                public void keyPressed(KeyEvent keyEvent) {
+                    if (keyEvent.getKeyCode() == 68) // 'd' character
+                        logicalAgent.rightArrowPressed();
+                    else if (keyEvent.getKeyCode() == 65) // 'a' character
+                        logicalAgent.leftArrowPressed();
+                }
+
+                @Override
+                public void keyReleased(KeyEvent keyEvent) {
+                }
+            });
+            frame.add(gamePanel);
+            frame.repaint();
+
+            logicalAgent.startGame(tmp);
+
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    Toolkit.getDefaultToolkit().sync(); //Fixes Linux Lag
+                    logicalAgent.timePassed(1000 / fps);
+                    updateState(logicalAgent.getGameState());
+                }
+            }, 0, 1000 / fps);
+        });
     }
 }

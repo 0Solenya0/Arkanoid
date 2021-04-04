@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GameState {
+    private Player player;
     private Board board;
     private ArrayList<Ball> balls;
     private ArrayList<Block> blocks;
@@ -23,6 +24,10 @@ public class GameState {
         board = new Board();
         Ball ball = new Ball(board.getX() + board.getLength() / 2, board.getY() - Ball.defaultH);
         balls.add(ball);
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public ArrayList<Prize> getPrizes() {

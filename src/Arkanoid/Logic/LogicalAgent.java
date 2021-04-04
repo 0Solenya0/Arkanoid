@@ -34,8 +34,9 @@ public class LogicalAgent {
         gameState.getBoard().move('L');
     }
 
-    public void startGame() {
+    public void startGame(Player player) {
         isGameStarted = true;
+        gameState.setPlayer(player);
     }
 
     public void timePassed(int ms) {
