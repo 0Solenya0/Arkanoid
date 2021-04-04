@@ -8,6 +8,7 @@ import Arkanoid.Logic.models.Prize;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class GameState {
@@ -56,7 +57,7 @@ public class GameState {
             block.shiftDown();
         for (int i = 0; i < 6; i++) {
             Block block;
-            block = new PrizeBlock(12 + i * 15 + i * Block.defaultWidth, Block.YSHIFT, Prize.PrizeType.FIREBALL);
+            block = new PrizeBlock(12 + i * 15 + i * Block.defaultWidth, Block.YSHIFT, Prize.PrizeType.RANDOM);
             addBlock(block);
         }
     }
@@ -104,6 +105,7 @@ public class GameState {
     }
 
     public void usePrize(Prize.PrizeType prize) {
+        System.out.println(prize.toString());
         switch (prize) {
             case EXPANDBOARD:
                 board.usePrize(Prize.PrizeType.EXPANDBOARD);
@@ -132,6 +134,12 @@ public class GameState {
                 ArrayList<Ball> balls1 = new ArrayList<>(balls);
                 for (Ball ball: balls1)
                     ball.usePrize(prize);
+                break;
+            case RANDOM:
+                int len = Prize.PrizeType.values().length;
+                len -= 1;
+                Random random = new Random();
+                usePrize(Prize.PrizeType.values()[random.nextInt(len)]);
                 break;
         }
     }
