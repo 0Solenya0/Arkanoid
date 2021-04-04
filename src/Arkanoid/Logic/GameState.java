@@ -16,6 +16,7 @@ public class GameState {
     private ArrayList<Ball> balls;
     private ArrayList<Block> blocks;
     private ArrayList<Prize> prizes;
+    private int playerLives;
 
     public GameState() {
         blocks = new ArrayList<>();
@@ -25,18 +26,19 @@ public class GameState {
     }
 
     public void initialSetup() {
-        Ball ball = new Ball(board.getX() + board.getLength() / 2, board.getY() - Ball.defaultH);
-        balls.add(ball);
+        playerLives = 3;
+        renewBall();
         for (int i = 0; i < 4; i++)
             addBlockRow();
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void renewBall() {
+        Ball ball = new Ball(board.getX() + board.getLength() / 2, board.getY() - Ball.defaultH);
+        addBall(ball);
     }
 
-    public ArrayList<Prize> getPrizes() {
-        return prizes;
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public void start() {
@@ -54,10 +56,6 @@ public class GameState {
             block = new PrizeBlock(12 + i * 15 + i * Block.defaultWidth, Block.YSHIFT, Prize.PrizeType.SLOWBALL);
             addBlock(block);
         }
-    }
-
-    public ArrayList<Block> getBlocks() {
-        return blocks;
     }
 
     public void addBlock(Block block) {
@@ -91,12 +89,15 @@ public class GameState {
         prize.fall();
     }
 
-    public ArrayList<Ball> getBalls() {
-        return balls;
-    }
-
-    public Board getBoard() {
-        return board;
+    public void addBall(Ball ball) {
+        ball.listener = new Listener() {
+            @Override
+            public void listen(String s) {
+                if (Ball.Events.valueOf(s) == Ball.Events.DELETE)
+                    balls.remove(ball);
+            }
+        };
+        balls.add(ball);
     }
 
     public void usePrize(Prize.PrizeType prize) {
@@ -119,5 +120,29 @@ public class GameState {
                     ball.usePrize(Prize.PrizeType.SLOWBALL);
                 break;
         }
+    }
+
+    public ArrayList<Ball> getBalls() {
+        return balls;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public ArrayList<Block> getBlocks() {
+        return blocks;
+    }
+
+    public ArrayList<Prize> getPrizes() {
+        return prizes;
+    }
+
+    public void setPlayerLives(int playerLives) {
+        this.playerLives = playerLives;
+    }
+
+    public int getPlayerLives() {
+        return playerLives;
     }
 }

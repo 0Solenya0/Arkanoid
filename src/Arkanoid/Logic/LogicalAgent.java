@@ -44,6 +44,10 @@ public class LogicalAgent implements KeyListener {
         }, 0, 10);
     }
 
+    public void gameOver() {
+        isGameStarted = false;
+    }
+
     public void checkLogic() {
         if (isGameStarted) {
             checkBallLogic();
@@ -58,6 +62,17 @@ public class LogicalAgent implements KeyListener {
                 if (block.isHitable() && ball.bounceIfCollide(block))
                     block.ballHit();
             }
+        }
+        if (gameState.getBalls().isEmpty()) {
+            int l = gameState.getPlayerLives();
+            l -= 1;
+            if (l == 0)
+                gameOver();
+            else {
+                gameState.renewBall();
+                gameState.getBalls().get(0).start();
+            }
+            gameState.setPlayerLives(l);
         }
     }
 

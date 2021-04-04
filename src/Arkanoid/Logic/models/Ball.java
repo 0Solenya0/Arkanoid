@@ -1,5 +1,6 @@
 package Arkanoid.Logic.models;
 
+import Arkanoid.Listener;
 import Arkanoid.Logic.models.Block.Block;
 import Arkanoid.graphic.MainFrame;
 import Arkanoid.graphic.panels.GamePanel;
@@ -15,7 +16,8 @@ public class Ball extends Model {
     Timer timerMovement;
     private double xSpeed = 1, ySpeed = -1;
     private double prvx, prvy, x, y;
-    int w, h, lives;
+    public Listener listener;
+    private int w, h;
 
     public Ball(int x, int y) {
         this.x = x;
@@ -24,7 +26,6 @@ public class Ball extends Model {
         prvy = y;
         w = defaultW;
         h = defaultH;
-        lives = 3;
     }
 
     public boolean bounceIfCollide(Block b) {
@@ -51,7 +52,7 @@ public class Ball extends Model {
             ySpeed *= -1;
         if (y + h > GamePanel.defaultBoardH + 20 && ySpeed > 0) {
             ySpeed *= -1;
-            lives--;
+            delete();
         }
     }
 
@@ -92,6 +93,14 @@ public class Ball extends Model {
         ySpeed /= Math.abs(ySpeed);
     }
 
+    public void delete() {
+        timerMovement.cancel();
+        timerMovement.purge();
+        taskNormalizeSpeed.disable();
+        if (listener != null)
+            listener.listen(Events.DELETE.toString());
+    }
+
     public int getX() {
         return (int) x;
     }
@@ -100,4 +109,7 @@ public class Ball extends Model {
         return (int) y;
     }
 
+    public enum Events {
+        DELETE
+    }
 }
