@@ -4,6 +4,7 @@ import Arkanoid.Logic.models.Ball;
 import Arkanoid.Logic.models.Block.Block;
 import Arkanoid.Logic.models.Block.WoddenBlock;
 import Arkanoid.Logic.models.Prize;
+import Arkanoid.Logic.models.Task;
 import Arkanoid.graphic.GraphicalAgent;
 
 import java.awt.event.KeyEvent;
@@ -14,7 +15,8 @@ import java.util.TimerTask;
 
 public class LogicalAgent implements KeyListener {
     private GameState gameState;
-    boolean isGameStarted;
+    boolean isGameStarted, isPaused;
+    int addRow = 30000;
     Timer timer;
 
     public LogicalAgent() {
@@ -30,19 +32,25 @@ public class LogicalAgent implements KeyListener {
         gameState.setPlayer(player);
         gameState.start();
 
+        resumeGame();
+    }
+
+    public void resumeGame() {
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                gameState.addBlockRow();
-            }
-        }, 0, 30000);
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
                 checkLogic();
+                addRow -= 10;
             }
         }, 0, 10);
+        gameState.start();
+    }
+
+    public void pauseGame() {
+        timer.cancel();
+        timer.purge();
+        gameState.pause();
     }
 
     public void gameOver() {
@@ -51,6 +59,10 @@ public class LogicalAgent implements KeyListener {
 
     public void checkLogic() {
         if (isGameStarted) {
+            if (addRow <= 0) {
+                gameState.addBlockRow();
+                addRow = 30000;
+            }
             checkBallLogic();
             checkPrizeLogic();
         }
@@ -88,6 +100,14 @@ public class LogicalAgent implements KeyListener {
         }
     }
 
+    public void pauseButtonClick() {
+        isPaused = !isPaused;
+        if (isPaused)
+            pauseGame();
+        else
+            resumeGame();
+    }
+
     @Override
     public void keyTyped(KeyEvent keyEvent) {
 
@@ -95,6 +115,8 @@ public class LogicalAgent implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
+        if (isPaused)
+            return;
         if (keyEvent.getKeyCode() == 68) // 'd' character
             gameState.getBoard().move('R');
         else if (keyEvent.getKeyCode() == 65) // 'a' character

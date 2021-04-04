@@ -23,17 +23,38 @@ public class Task {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                age += 10;
-                if (age >= deadLine) {
-                    runnable.run();
-                    disable();
-                }
+                taskFunction();
             }
         }, 0, 10);
     }
 
+    public void taskFunction() {
+        age += 10;
+        if (age >= deadLine) {
+            runnable.run();
+            disable();
+        }
+    }
+
     public boolean isAlive() {
-        return age >= deadLine;
+        return age < deadLine;
+    }
+
+    public void pause() {
+        timer.cancel();
+        timer.purge();
+    }
+
+    public void resume() {
+        if (isAlive()) {
+            timer = new Timer();
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    taskFunction();
+                }
+            }, 0, 10);
+        }
     }
 
     public void disable() {

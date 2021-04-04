@@ -43,6 +43,11 @@ public class Prize extends Model {
         }, 0, 30);
     }
 
+    public void pause() {
+        timer.cancel();
+        timer.purge();
+    }
+
     public void delete() {
         timer.cancel();
         timer.purge();

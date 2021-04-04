@@ -9,6 +9,8 @@ import Arkanoid.graphic.panels.MenuPanel;
 import Arkanoid.Logic.LogicalAgent;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Timer;
@@ -26,7 +28,6 @@ public class GraphicalAgent {
         this.logicalAgent = logicalAgent;
         frame = new MainFrame();
         menuPanel = new MenuPanel();
-        gamePanel = new GamePanel();
         timer = new Timer();
         showMenu();
     }
@@ -61,7 +62,12 @@ public class GraphicalAgent {
             logicalAgent.startGame(tmp);
 
             frame.setSize(new Dimension(MainFrame.FRAME_WIDTH, MainFrame.FRAME_HEIGHT));
-            gamePanel = new GamePanel();
+            gamePanel = new GamePanel(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    logicalAgent.pauseButtonClick();
+                }
+            });
             frame.addKeyListener(logicalAgent);
             frame.add(gamePanel);
             frame.repaint();

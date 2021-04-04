@@ -50,6 +50,17 @@ public class GameState {
             ball.start();
         for (Prize prize: prizes1)
             prize.fall();
+        board.resume();
+    }
+
+    public void pause() {
+        ArrayList<Ball> balls1 = new ArrayList<>(balls);
+        ArrayList<Prize> prizes1 = new ArrayList<>(prizes);
+        for (Ball ball: balls1)
+            ball.pause();
+        for (Prize prize: prizes1)
+            prize.pause();
+        board.pause();
     }
 
     public void addBlockRow() {

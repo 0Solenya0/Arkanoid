@@ -78,6 +78,15 @@ public class Ball extends Model {
                 move(10);
             }
         }, 0, 10);
+        taskNormalizeFire.resume();
+        taskNormalizeSpeed.resume();
+    }
+
+    public void pause() {
+        timerMovement.cancel();
+        timerMovement.purge();
+        taskNormalizeSpeed.pause();
+        taskNormalizeFire.pause();
     }
 
     public void usePrize(Prize.PrizeType prize) {

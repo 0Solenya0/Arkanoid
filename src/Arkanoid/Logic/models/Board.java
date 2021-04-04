@@ -3,9 +3,6 @@ package Arkanoid.Logic.models;
 import Arkanoid.graphic.MainFrame;
 import Arkanoid.graphic.panels.GamePanel;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 public class Board extends Model {
     public static int defaultLength = 120;
 
@@ -19,6 +16,16 @@ public class Board extends Model {
     public Board() {
         x = 0;
         length = defaultLength;
+    }
+
+    public void resume() {
+        taskNormalizeLength.resume();
+        taskNormalizeConfuse.resume();
+    }
+
+    public void pause() {
+        taskNormalizeConfuse.pause();
+        taskNormalizeLength.pause();
     }
 
     public void normalize() {

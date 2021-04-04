@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class MainFrame extends JFrame {
     public static final int FRAME_WIDTH = 400;
-    public static final int FRAME_HEIGHT = 600;
+    public static final int FRAME_HEIGHT = 700;
 
     public MainFrame() {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
