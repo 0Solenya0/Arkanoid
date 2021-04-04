@@ -22,8 +22,13 @@ public class GameState {
         prizes = new ArrayList<>();
         balls = new ArrayList<>();
         board = new Board();
+    }
+
+    public void initialSetup() {
         Ball ball = new Ball(board.getX() + board.getLength() / 2, board.getY() - Ball.defaultH);
         balls.add(ball);
+        for (int i = 0; i < 4; i++)
+            addBlockRow();
     }
 
     public void setPlayer(Player player) {
@@ -32,6 +37,13 @@ public class GameState {
 
     public ArrayList<Prize> getPrizes() {
         return prizes;
+    }
+
+    public void start() {
+        for (Ball ball: balls)
+            ball.start();
+        for (Prize prize: prizes)
+            prize.fall(this);
     }
 
     public void addBlockRow() {

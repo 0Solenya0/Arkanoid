@@ -10,7 +10,7 @@ import java.util.TimerTask;
 public class Ball extends Model {
     public static int defaultW = 15, defaultH = 15;
 
-    Timer timerSpeed;
+    Timer timerSpeed, timerMovement;
     private double xSpeed = 1, ySpeed = -1;
     private double prvx, prvy, x, y;
     int w, h, lives;
@@ -63,12 +63,14 @@ public class Ball extends Model {
         Bounce();
     }
 
-    public int getX() {
-        return (int) x;
-    }
-
-    public int getY() {
-        return (int) y;
+    public void start() {
+        timerMovement = new Timer();
+        timerMovement.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                move(10);
+            }
+        }, 0, 10);
     }
 
     public void usePrize(Prize.PrizeType prize) {
@@ -101,4 +103,13 @@ public class Ball extends Model {
             }, 6000);
         }
     }
+
+    public int getX() {
+        return (int) x;
+    }
+
+    public int getY() {
+        return (int) y;
+    }
+
 }

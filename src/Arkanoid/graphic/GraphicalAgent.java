@@ -58,30 +58,13 @@ public class GraphicalAgent {
             frame.remove(getPlayer);
             //TO DO : GET OR CREATE THE PLAYER
             Player tmp = new Player(s);
+            logicalAgent.startGame(tmp);
 
             frame.setSize(new Dimension(MainFrame.FRAME_WIDTH, MainFrame.FRAME_HEIGHT));
             gamePanel = new GamePanel();
-            frame.addKeyListener(new KeyListener() {
-                @Override
-                public void keyTyped(KeyEvent keyEvent) {
-                }
-
-                @Override
-                public void keyPressed(KeyEvent keyEvent) {
-                    if (keyEvent.getKeyCode() == 68) // 'd' character
-                        logicalAgent.rightArrowPressed();
-                    else if (keyEvent.getKeyCode() == 65) // 'a' character
-                        logicalAgent.leftArrowPressed();
-                }
-
-                @Override
-                public void keyReleased(KeyEvent keyEvent) {
-                }
-            });
+            frame.addKeyListener(logicalAgent);
             frame.add(gamePanel);
             frame.repaint();
-
-            logicalAgent.startGame(tmp);
 
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
