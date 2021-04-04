@@ -13,7 +13,7 @@ public class Ball extends Model {
 
     private final Task taskNormalizeSpeed = new Task(this::setSpeedToNormal);
 
-    Timer timerMovement;
+    Timer timerMovement = new Timer();
     private double xSpeed = 1, ySpeed = -1;
     private double prvx, prvy, x, y;
     public Listener listener;
@@ -65,6 +65,8 @@ public class Ball extends Model {
     }
 
     public void start() {
+        timerMovement.cancel();
+        timerMovement.purge();
         timerMovement = new Timer();
         timerMovement.scheduleAtFixedRate(new TimerTask() {
             @Override

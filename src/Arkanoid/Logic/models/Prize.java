@@ -11,7 +11,7 @@ import java.util.TimerTask;
 public class Prize extends Model {
     public static final int defaultWidth = 10, defaultHeight = 10;
 
-    Timer timer;
+    Timer timer = new Timer();
     private int x, y, w = defaultWidth, h = defaultHeight;
     private PrizeType type;
     public Listener listener;
@@ -32,6 +32,8 @@ public class Prize extends Model {
     }
 
     public void fall() {
+        timer.cancel();
+        timer.purge();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override

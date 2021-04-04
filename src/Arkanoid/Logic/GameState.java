@@ -71,6 +71,7 @@ public class GameState {
                     int x = scanner.nextInt(), y = scanner.nextInt();
                     Prize prize = new Prize(x, y, Prize.PrizeType.valueOf(type));
                     addPrize(prize);
+                    start();
                 }
             }
         };
@@ -86,7 +87,6 @@ public class GameState {
             }
         };
         prizes.add(prize);
-        prize.fall();
     }
 
     public void addBall(Ball ball) {

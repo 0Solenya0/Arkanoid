@@ -70,7 +70,7 @@ public class LogicalAgent implements KeyListener {
                 gameOver();
             else {
                 gameState.renewBall();
-                gameState.getBalls().get(0).start();
+                gameState.start();
             }
             gameState.setPlayerLives(l);
         }
