@@ -34,7 +34,8 @@ public class GamePanel extends JPanel {
     public void updateState(GameState state) {
         board.updateState(state.getBoard());
         balls = new ArrayList<>();
-        for (Ball ball: state.getBalls()) {
+        ArrayList<Ball> gameStateBalls = new ArrayList<>(state.getBalls());
+        for (Ball ball: gameStateBalls) {
             GraphicalBall graphicalBall = new GraphicalBall();
             graphicalBall.updateState(ball);
             balls.add(graphicalBall);

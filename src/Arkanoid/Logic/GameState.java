@@ -27,14 +27,15 @@ public class GameState {
 
     public void initialSetup() {
         playerLives = 3;
-        renewBall();
+        newBall();
         for (int i = 0; i < 4; i++)
             addBlockRow();
     }
 
-    public void renewBall() {
+    public Ball newBall() {
         Ball ball = new Ball(board.getX() + board.getLength() / 2, board.getY() - Ball.defaultH);
         addBall(ball);
+        return ball;
     }
 
     public void setPlayer(Player player) {
@@ -42,9 +43,11 @@ public class GameState {
     }
 
     public void start() {
-        for (Ball ball: balls)
+        ArrayList<Ball> balls1 = new ArrayList<>(balls);
+        ArrayList<Prize> prizes1 = new ArrayList<>(prizes);
+        for (Ball ball: balls1)
             ball.start();
-        for (Prize prize: prizes)
+        for (Prize prize: prizes1)
             prize.fall();
     }
 
@@ -53,7 +56,7 @@ public class GameState {
             block.shiftDown();
         for (int i = 0; i < 6; i++) {
             Block block;
-            block = new PrizeBlock(12 + i * 15 + i * Block.defaultWidth, Block.YSHIFT, Prize.PrizeType.SLOWBALL);
+            block = new PrizeBlock(12 + i * 15 + i * Block.defaultWidth, Block.YSHIFT, Prize.PrizeType.MULTIBALL);
             addBlock(block);
         }
     }
@@ -118,6 +121,12 @@ public class GameState {
             case SLOWBALL:
                 for (Ball ball: balls)
                     ball.usePrize(Prize.PrizeType.SLOWBALL);
+                break;
+            case MULTIBALL:
+                Ball ball1 = newBall();
+                Ball ball2 = newBall();
+                ball2.setxSpeed(-ball2.getxSpeed());
+                start();
                 break;
         }
     }

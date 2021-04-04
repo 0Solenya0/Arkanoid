@@ -76,7 +76,8 @@ public class Prize extends Model {
         EXPANDBOARD,
         CONFUSEBOARD,
         FASTBALL,
-        SLOWBALL
+        SLOWBALL,
+        MULTIBALL
     }
 
     public enum Events {

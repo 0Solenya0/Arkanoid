@@ -111,6 +111,14 @@ public class Ball extends Model {
         return (int) y;
     }
 
+    public double getxSpeed() {
+        return xSpeed;
+    }
+
+    public void setxSpeed(double xSpeed) {
+        this.xSpeed = xSpeed;
+    }
+
     public enum Events {
         DELETE
     }
