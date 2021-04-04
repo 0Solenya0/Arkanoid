@@ -87,8 +87,8 @@ public class GraphicalAgent {
                 @Override
                 public void run() {
                     Toolkit.getDefaultToolkit().sync(); //Fixes Linux Lag
-                    logicalAgent.timePassed(1000 / fps);
-                    updateState(logicalAgent.getGameState());
+                    if (logicalAgent.isGameStarted())
+                        updateState(logicalAgent.getGameState());
                 }
             }, 0, 1000 / fps);
         });

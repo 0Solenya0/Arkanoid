@@ -2,6 +2,7 @@ package Arkanoid.Logic;
 
 import Arkanoid.Logic.models.Ball;
 import Arkanoid.Logic.models.Block.Block;
+import Arkanoid.graphic.GraphicalAgent;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -24,6 +25,16 @@ public class LogicalAgent {
                 gameState.addBlockRow();
             }
         }, 0, 30000);
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                timePassed(10);
+            }
+        }, 0, 10);
+    }
+
+    public boolean isGameStarted() {
+        return isGameStarted;
     }
 
     public void rightArrowPressed() {
