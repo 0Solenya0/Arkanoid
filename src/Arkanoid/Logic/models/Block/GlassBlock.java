@@ -10,4 +10,9 @@ public class GlassBlock extends Block {
     public void ballHit() {
         this.delete();
     }
+
+    @Override
+    public String serialize() {
+        return getSerializeData();
+    }
 }

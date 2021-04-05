@@ -16,4 +16,8 @@ public class WoddenBlock extends Block {
             this.delete();
     }
 
+    @Override
+    public String serialize() {
+        return getSerializeData() + lives + "\n";
+    }
 }

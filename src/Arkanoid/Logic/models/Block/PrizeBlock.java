@@ -16,4 +16,9 @@ public class PrizeBlock extends Block {
         listener.listen(Events.ADDPRIZE + " " + prizeType.toString() + " " + (int) (this.x + (this.getWidth() - Prize.defaultWidth) / 2) + " " + this.y);
         this.delete();
     }
+
+    @Override
+    public String serialize() {
+        return getSerializeData() + prizeType.toString() + "\n";
+    }
 }

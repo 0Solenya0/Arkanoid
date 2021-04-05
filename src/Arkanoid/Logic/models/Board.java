@@ -3,7 +3,7 @@ package Arkanoid.Logic.models;
 import Arkanoid.graphic.MainFrame;
 import Arkanoid.graphic.panels.GamePanel;
 
-public class Board extends Model {
+public class Board extends Model implements Savable<Board> {
     public static int defaultLength = 120;
 
     final private Task taskNormalizeLength = new Task(this::setLengthToNormal);
@@ -92,5 +92,16 @@ public class Board extends Model {
 
     public int getX() {
         return x;
+    }
+
+    @Override
+    public String serialize() {
+        String res = xSpeed + "\n" +
+                x + "\n" +
+                length + "\n" +
+                isConfused + "\n" +
+                taskNormalizeConfuse.serialize() + "\n" +
+                taskNormalizeLength.serialize() + "\n";
+        return res;
     }
 }

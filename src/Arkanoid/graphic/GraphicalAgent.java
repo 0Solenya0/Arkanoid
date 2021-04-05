@@ -50,6 +50,7 @@ public class GraphicalAgent {
 
     public void startGame() {
         frame.remove(menuPanel);
+
         GetPlayer getPlayer = new GetPlayer();
         frame.add(getPlayer);
         frame.setSize(new Dimension(MainFrame.FRAME_WIDTH, GetPlayer.GETPLAYERPANELH));
@@ -61,7 +62,7 @@ public class GraphicalAgent {
             Player tmp = new Player(s);
             logicalAgent.startGame(tmp);
 
-            frame.setSize(new Dimension(MainFrame.FRAME_WIDTH, MainFrame.FRAME_HEIGHT));
+
             gamePanel = new GamePanel(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
@@ -69,6 +70,8 @@ public class GraphicalAgent {
                 }
             });
             frame.addKeyListener(logicalAgent);
+
+            frame.setSize(new Dimension(MainFrame.FRAME_WIDTH, MainFrame.FRAME_HEIGHT));
             frame.add(gamePanel);
             frame.repaint();
 

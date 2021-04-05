@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Task {
+public class Task implements Savable<Task> {
     private int age = 0, deadLine = 0;
     private Timer timer;
     private Runnable runnable;
@@ -62,5 +62,11 @@ public class Task {
         timer.purge();
         timer = new Timer();
         age = Integer.MAX_VALUE;
+    }
+
+    @Override
+    public String serialize() {
+        String res = age + " " + deadLine;
+        return res;
     }
 }

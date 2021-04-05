@@ -5,25 +5,32 @@ import Arkanoid.Logic.models.Ball;
 import Arkanoid.Logic.models.Block.*;
 import Arkanoid.Logic.models.Board;
 import Arkanoid.Logic.models.Prize;
+import Arkanoid.Logic.models.Savable;
 
+import java.io.File;
 import java.io.PrintStream;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
-public class GameState {
+public class GameState implements Savable<GameState> {
     private Player player;
     private Board board;
     private ArrayList<Ball> balls;
     private ArrayList<Block> blocks;
     private ArrayList<Prize> prizes;
     private int playerLives;
+    public int gameId;
+    private LocalDateTime createdAt;
 
     public GameState() {
         blocks = new ArrayList<>();
         prizes = new ArrayList<>();
         balls = new ArrayList<>();
         board = new Board();
+        createdAt = LocalDateTime.now();
     }
 
     public void initialSetup() {
@@ -46,20 +53,26 @@ public class GameState {
     public void start() {
         ArrayList<Ball> balls1 = new ArrayList<>(balls);
         ArrayList<Prize> prizes1 = new ArrayList<>(prizes);
+        ArrayList<Block> blocks1 = new ArrayList<>(blocks);
         for (Ball ball: balls1)
             ball.start();
         for (Prize prize: prizes1)
             prize.fall();
+        for (Block block: blocks1)
+            block.resume();
         board.resume();
     }
 
     public void pause() {
         ArrayList<Ball> balls1 = new ArrayList<>(balls);
         ArrayList<Prize> prizes1 = new ArrayList<>(prizes);
+        ArrayList<Block> blocks1 = new ArrayList<>(blocks);
         for (Ball ball: balls1)
             ball.pause();
         for (Prize prize: prizes1)
             prize.pause();
+        for (Block block: blocks1)
+            block.pause();
         board.pause();
     }
 
@@ -177,5 +190,39 @@ public class GameState {
 
     public int getPlayerLives() {
         return playerLives;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    @Override
+    public String serialize() {
+        String res = gameId + "\n" +
+                createdAt + "\n" +
+                playerLives + "\n" +
+                player.id + "\n";
+        return res;
+    }
+
+    @Override
+    public void extraSave(File path) {
+        board.save(new File(path.getPath() + "/board"));
+        deleteDir(new File(path.getPath() + "/balls"));
+        deleteDir(new File(path.getPath() + "/blocks"));
+        deleteDir(new File(path.getPath() + "/prizes"));
+        for (int i = 0; i < balls.size(); i++)
+            balls.get(i).save(new File(path.getPath() + "/balls/" + i));
+        for (int i = 0; i < blocks.size(); i++)
+            blocks.get(i).save(new File(path.getPath() + "/blocks/" + i));
+        for (int i = 0; i < prizes.size(); i++)
+            prizes.get(i).save(new File(path.getPath() + "/prizes/" + i));
+    }
+
+    static void deleteDir(File path) {
+        for(String p: Objects.requireNonNull(path.list())){
+            File currentFile = new File(path.getPath(),p);
+            currentFile.delete();
+        }
     }
 }

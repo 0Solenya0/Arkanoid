@@ -8,7 +8,7 @@ import Arkanoid.graphic.panels.GamePanel;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Ball extends Model {
+public class Ball extends Model implements Savable<Ball> {
     public static int defaultW = 15, defaultH = 15;
 
     private final Task taskNormalizeSpeed = new Task(this::setSpeedToNormal);
@@ -143,6 +143,18 @@ public class Ball extends Model {
 
     public void setxSpeed(double xSpeed) {
         this.xSpeed = xSpeed;
+    }
+
+    @Override
+    public String serialize() {
+        String res = xSpeed + " " + ySpeed + "\n" +
+                prvx + " " + prvy + "\n" +
+                x + " " + y + "\n" +
+                w + " " + h + "\n" +
+                isOnFire + "\n" +
+                taskNormalizeFire.serialize() + "\n" +
+                taskNormalizeSpeed.serialize() + "\n";
+        return res;
     }
 
     public enum Events {

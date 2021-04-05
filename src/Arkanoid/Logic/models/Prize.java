@@ -8,7 +8,7 @@ import Arkanoid.graphic.panels.GamePanel;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Prize extends Model {
+public class Prize extends Model implements Savable<Prize> {
     public static final int defaultWidth = 10, defaultHeight = 10;
 
     Timer timer = new Timer();
@@ -73,6 +73,14 @@ public class Prize extends Model {
 
     public PrizeType getType() {
         return type;
+    }
+
+    @Override
+    public String serialize() {
+        String res = x + " " + y + "\n" +
+                w + " " + h + "\n" +
+                type + "\n";
+        return res;
     }
 
 

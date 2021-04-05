@@ -9,6 +9,7 @@ import Arkanoid.graphic.GraphicalAgent;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -102,6 +103,8 @@ public class LogicalAgent implements KeyListener {
 
     public void pauseButtonClick() {
         isPaused = !isPaused;
+        gameState.getPlayer().save(new File("./db/players/" + gameState.getPlayer().id));
+        gameState.save(new File("./db/gameStates/" + gameState.gameId + "/state"));
         if (isPaused)
             pauseGame();
         else
