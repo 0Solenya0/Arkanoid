@@ -2,15 +2,21 @@ package Arkanoid.Logic;
 
 import Arkanoid.Logic.models.Savable;
 
+import java.io.File;
+
 public class Player implements Savable<Player> {
+    public static File dataSRC = new File("./db/players/");
     public int id;
     private String name;
     private int highScore, score;
 
     public Player(String name) {
         this.name = name;
-        if (name.isBlank() || name.isEmpty())
+        id = Savable.getLastId(dataSRC) + 1;
+        if (name.isBlank() || name.isEmpty()) {
             this.name = "Anonymous";
+            id = 0;
+        }
     }
 
     @Override

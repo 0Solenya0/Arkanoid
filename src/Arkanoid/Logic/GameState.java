@@ -16,6 +16,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class GameState implements Savable<GameState> {
+    public static File dataSRC = new File("./db/games/");
     private Player player;
     private Board board;
     private ArrayList<Ball> balls;
@@ -30,6 +31,7 @@ public class GameState implements Savable<GameState> {
         prizes = new ArrayList<>();
         balls = new ArrayList<>();
         board = new Board();
+        gameId = Savable.getLastId(dataSRC) + 1;
         createdAt = LocalDateTime.now();
     }
 
@@ -220,6 +222,8 @@ public class GameState implements Savable<GameState> {
     }
 
     static void deleteDir(File path) {
+        if (!path.exists())
+            return;
         for(String p: Objects.requireNonNull(path.list())){
             File currentFile = new File(path.getPath(),p);
             currentFile.delete();

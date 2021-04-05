@@ -103,8 +103,8 @@ public class LogicalAgent implements KeyListener {
 
     public void pauseButtonClick() {
         isPaused = !isPaused;
-        gameState.getPlayer().save(new File("./db/players/" + gameState.getPlayer().id));
-        gameState.save(new File("./db/gameStates/" + gameState.gameId + "/state"));
+        gameState.getPlayer().save(new File(Player.dataSRC.getPath(), String.valueOf(gameState.getPlayer().id)));
+        gameState.save(new File(GameState.dataSRC.getPath(), gameState.gameId + "/state"));
         if (isPaused)
             pauseGame();
         else
