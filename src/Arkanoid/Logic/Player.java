@@ -3,6 +3,7 @@ package Arkanoid.Logic;
 import Arkanoid.Logic.models.Savable;
 
 import java.io.File;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Player implements Savable<Player> {
@@ -37,5 +38,20 @@ public class Player implements Savable<Player> {
         id = serialized.nextInt();
         name = serialized.next();
         highScore = serialized.nextInt();
+    }
+
+    public static Player getPlayerByName(String name) {
+        Player player = new Player("");
+        if (dataSRC.list() != null) {
+            for (int i = 0; i <= Objects.requireNonNull(dataSRC.list()).length; i++) {
+                if (new File(dataSRC.getPath() + "/" + i).exists()) {
+                    player.load(new File(dataSRC.getPath() + "/" + i));
+                    if (player.name.equals(name))
+                        return player;
+                }
+            }
+        }
+        player = new Player(name);
+        return player;
     }
 }

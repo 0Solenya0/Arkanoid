@@ -57,8 +57,8 @@ public class GraphicalAgent {
         getPlayer.addListener(s -> {
             getPlayer.listeners.clear();
             frame.remove(getPlayer);
-            //TO DO : GET OR CREATE THE PLAYER
-            Player tmp = new Player(s);
+
+            Player tmp = Player.getPlayerByName(s);
             logicalAgent.startGame(tmp);
 
 

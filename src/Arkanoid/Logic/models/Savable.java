@@ -39,7 +39,6 @@ public interface Savable<T extends Savable> {
 
     }
     default void load(File path) {
-        System.out.println(loadSerializedString(path));
         deserialize(new Scanner(loadSerializedString(path)));
         extraLoad(path.getParentFile());
     }
