@@ -9,26 +9,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class GetPlayer extends JPanel implements ActionListener {
-    public static final int GETPLAYERPANELH = 220;
+public class GetField extends JPanel implements ActionListener {
+    public static final int GETFIELDPANELH = 220;
 
     public ArrayList<Listener> listeners;
     JButton submitBtn;
     JTextArea textArea;
     JLabel label;
 
-    public GetPlayer() {
+    public GetField(String FieldName) {
         super();
         listeners = new ArrayList<>();
         this.setLayout(null);
         this.setBackground(Color.BLACK);
-        this.setBounds(0,0, MainFrame.FRAME_WIDTH, GETPLAYERPANELH);
+        this.setBounds(0,0, MainFrame.FRAME_WIDTH, GETFIELDPANELH);
 
         submitBtn = new JButton("Submit");
         submitBtn.addActionListener(this);
         submitBtn.setBounds(310 / 2, 130, 90, 30);
 
-        label = new JLabel("Enter your username:");
+        label = new JLabel("Enter " + FieldName + " :");
         label.setForeground(Color.WHITE);
         label.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
         label.setBounds(10, 10,380, 30);

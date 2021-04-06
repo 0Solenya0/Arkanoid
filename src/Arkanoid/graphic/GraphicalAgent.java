@@ -6,11 +6,11 @@ import Arkanoid.Logic.Player;
 import Arkanoid.graphic.panels.*;
 import Arkanoid.Logic.LogicalAgent;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -21,7 +21,7 @@ public class GraphicalAgent {
     MainFrame frame;
     MenuPanel menuPanel;
     GamePanel gamePanel;
-    GetPlayer getPlayer;
+    GetField getField;
     LoadPanel loadPanel;
     ScoreBoardPanel scoreBoardPanel;
     Timer timer;
@@ -53,14 +53,14 @@ public class GraphicalAgent {
     }
 
     public void askPlayer() {
-        getPlayer = new GetPlayer();
-        frame.add(getPlayer);
-        frame.setSize(new Dimension(MainFrame.FRAME_WIDTH, GetPlayer.GETPLAYERPANELH));
+        getField = new GetField("your name");
+        frame.add(getField);
+        frame.setSize(new Dimension(MainFrame.FRAME_WIDTH, GetField.GETFIELDPANELH));
         frame.repaint();
 
-        getPlayer.addListener(s -> {
-            getPlayer.listeners.clear();
-            frame.remove(getPlayer);
+        getField.addListener(s -> {
+            getField.listeners.clear();
+            frame.remove(getField);
             Player player = Player.getPlayerByName(s);
             logicalAgent = new LogicalAgent();
             logicalAgent.startGame(player);
@@ -97,7 +97,44 @@ public class GraphicalAgent {
     public void startGame() {
         gamePanel = new GamePanel(actionEvent -> logicalAgent.pauseButtonClick(),
                 actionEvent -> logicalAgent.restartButtonClick(),
-                actionEvent -> logicalAgent.saveGame());
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent actionEvent) {
+                        logicalAgent.pauseGame();
+                        int n;
+                        if (logicalAgent.getGameState().isFirstSave())
+                            n = 1;
+                        else {
+                            Object[] options = {"Override current save",
+                                    "Make a new save"};
+                            n = JOptionPane.showOptionDialog(frame,
+                                    "How to save?",
+                                    "Save Game",
+                                    JOptionPane.YES_NO_OPTION,
+                                    JOptionPane.QUESTION_MESSAGE,
+                                    null,
+                                    options,
+                                    options[1]);
+                        }
+
+                        if (n == 1) {
+                            MainFrame dialog = new MainFrame();
+                            dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            dialog.setSize(new Dimension(MainFrame.FRAME_WIDTH, GetField.GETFIELDPANELH));
+                            getField = new GetField("save name");
+                            dialog.add(getField);
+                            getField.addListener(new Listener() {
+                                @Override
+                                public void listen(String s) {
+                                    logicalAgent.saveGame(s, n);
+                                    dialog.dispatchEvent(new WindowEvent(dialog, WindowEvent.WINDOW_CLOSING));
+                                }
+                            });
+                        }
+                        else
+                            logicalAgent.saveGame("", n);
+                    }
+                });
         frame.addKeyListener(logicalAgent);
 
         frame.setSize(new Dimension(MainFrame.FRAME_WIDTH, MainFrame.FRAME_HEIGHT));

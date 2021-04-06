@@ -4,8 +4,10 @@ import Arkanoid.Logic.models.Ball;
 import Arkanoid.Logic.models.Block.Block;
 import Arkanoid.Logic.models.Block.WoddenBlock;
 import Arkanoid.Logic.models.Prize;
+import Arkanoid.Logic.models.Savable;
 import Arkanoid.graphic.panels.GamePanel;
 
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
@@ -131,6 +133,7 @@ public class LogicalAgent implements KeyListener {
     }
 
     public void pauseButtonClick() {
+
         isPaused = !isPaused;
         if (isPaused)
             pauseGame();
@@ -138,7 +141,14 @@ public class LogicalAgent implements KeyListener {
             resumeGame();
     }
 
-    public void saveGame() {
+    public void saveGame(String name, int t) {
+        if (t == 0 && gameState.isFirstSave()) {
+            gameState.name = name;
+        }
+        else if (t == 1) {
+            gameState.gameId = Savable.getLastId(GameState.dataSRC) + 1;
+            gameState.name = name;
+        }
         gameState.getPlayer().save(new File(Player.dataSRC.getPath(), String.valueOf(gameState.getPlayer().id)));
         gameState.save(new File(GameState.dataSRC.getPath(), gameState.gameId + "/state"));
     }

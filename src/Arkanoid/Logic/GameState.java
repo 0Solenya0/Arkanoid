@@ -224,6 +224,12 @@ public class GameState implements Savable<GameState> {
         return isFinished;
     }
 
+    public boolean isFirstSave() {
+        if ((new File(dataSRC.getPath() + "/" + gameId + "/state")).exists())
+            return false;
+        return true;
+    }
+
     public String getCreatedAt() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return createdAt.format(formatter);
