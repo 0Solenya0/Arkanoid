@@ -1,5 +1,7 @@
 package Arkanoid.Logic.models.Block;
 
+import java.util.Scanner;
+
 public class WoddenBlock extends Block {
 
     int lives;
@@ -19,5 +21,11 @@ public class WoddenBlock extends Block {
     @Override
     public String serialize() {
         return getSerializeData() + lives + "\n";
+    }
+
+    @Override
+    public void deserialize(Scanner scanner) {
+        super.deserialize(scanner);
+        lives = scanner.nextInt();
     }
 }

@@ -3,6 +3,8 @@ package Arkanoid.Logic.models;
 import Arkanoid.graphic.MainFrame;
 import Arkanoid.graphic.panels.GamePanel;
 
+import java.util.Scanner;
+
 public class Board extends Model implements Savable<Board> {
     public static int defaultLength = 120;
 
@@ -103,5 +105,15 @@ public class Board extends Model implements Savable<Board> {
                 taskNormalizeConfuse.serialize() + "\n" +
                 taskNormalizeLength.serialize() + "\n";
         return res;
+    }
+
+    @Override
+    public void deserialize(Scanner serialized) {
+        xSpeed = serialized.nextInt();
+        x = serialized.nextInt();
+        length = serialized.nextInt();
+        isConfused = serialized.nextBoolean();
+        taskNormalizeConfuse.deserialize(serialized);
+        taskNormalizeLength.deserialize(serialized);
     }
 }

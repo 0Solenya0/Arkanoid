@@ -2,6 +2,8 @@ package Arkanoid.Logic.models.Block;
 
 import Arkanoid.Logic.models.Prize;
 
+import java.util.Scanner;
+
 public class PrizeBlock extends Block {
 
     Prize.PrizeType prizeType;
@@ -20,5 +22,11 @@ public class PrizeBlock extends Block {
     @Override
     public String serialize() {
         return getSerializeData() + prizeType.toString() + "\n";
+    }
+
+    @Override
+    public void deserialize(Scanner scanner) {
+        super.deserialize(scanner);
+        prizeType = Prize.PrizeType.valueOf(scanner.next());
     }
 }

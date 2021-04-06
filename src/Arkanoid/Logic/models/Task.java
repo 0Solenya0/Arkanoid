@@ -1,6 +1,7 @@
 package Arkanoid.Logic.models;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -31,8 +32,8 @@ public class Task implements Savable<Task> {
     public void taskFunction() {
         age += 10;
         if (age >= deadLine) {
+            pause();
             runnable.run();
-            disable();
         }
     }
 
@@ -47,6 +48,8 @@ public class Task implements Savable<Task> {
 
     public void resume() {
         if (isAlive()) {
+            timer.cancel();
+            timer.purge();
             timer = new Timer();
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
@@ -68,5 +71,11 @@ public class Task implements Savable<Task> {
     public String serialize() {
         String res = age + " " + deadLine;
         return res;
+    }
+
+    @Override
+    public void deserialize(Scanner serialized) {
+        age = serialized.nextInt();
+        deadLine = serialized.nextInt();
     }
 }

@@ -22,7 +22,7 @@ public class GameState implements Savable<GameState> {
     private ArrayList<Ball> balls;
     private ArrayList<Block> blocks;
     private ArrayList<Prize> prizes;
-    private int playerLives;
+    private int playerLives, score;
     public int gameId;
     private LocalDateTime createdAt;
 
@@ -83,7 +83,10 @@ public class GameState implements Savable<GameState> {
             block.shiftDown();
         for (int i = 0; i < 6; i++) {
             Block block;
-            block = new PrizeBlock(12 + i * 15 + i * Block.defaultWidth, Block.YSHIFT, Prize.PrizeType.RANDOM);
+            if (i < 3)
+                block = new PrizeBlock(12 + i * 15 + i * Block.defaultWidth, Block.YSHIFT, Prize.PrizeType.RANDOM);
+            else
+                block = new FlashingBlock(12 + i * 15 + i * Block.defaultWidth, Block.YSHIFT);
             addBlock(block);
         }
     }
@@ -203,8 +206,57 @@ public class GameState implements Savable<GameState> {
         String res = gameId + "\n" +
                 createdAt + "\n" +
                 playerLives + "\n" +
+                score + "\n" +
                 player.id + "\n";
         return res;
+    }
+
+    @Override
+    public void deserialize(Scanner serialized) {
+        gameId = serialized.nextInt();
+        createdAt = LocalDateTime.parse(serialized.next());
+        playerLives = serialized.nextInt();
+        score = serialized.nextInt();
+        player = new Player("");
+        player.id = serialized.nextInt();
+    }
+
+    @Override
+    public void extraLoad(File path) {
+        player.load(new File(Player.dataSRC + "/" + player.id));
+
+        board.load(new File(path.getPath() + "/board"));
+        int cnt = 0;
+
+        if ((new File(path.getPath() + "/balls/0")).exists()) {
+            cnt = (Objects.requireNonNull(new File(path.getPath() + "/balls/").list())).length;
+            balls.clear();
+            for (int i = 0; i < cnt; i++) {
+                Ball ball = new Ball(0, 0);
+                ball.load(new File(path.getPath() + "/balls/" + i));
+                addBall(ball);
+            }
+        }
+
+        if ((new File(path.getPath() + "/blocks/0")).exists()) {
+            cnt = (Objects.requireNonNull(new File(path.getPath() + "/blocks/").list())).length;
+            blocks.clear();
+            for (int i = 0; i < cnt; i++) {
+                Block block = Block.loadBlock(new File(path.getPath() + "/blocks/" + i));
+                assert block != null;
+                addBlock(block);
+            }
+        }
+
+        if ((new File(path.getPath() + "/prizes/0")).exists()) {
+            cnt = (Objects.requireNonNull(new File(path.getPath() + "/prizes/").list())).length;
+            prizes.clear();
+            for (int i = 0; i < cnt; i++) {
+                Prize prize = new Prize(0, 0, Prize.PrizeType.RANDOM);
+                prize.load(new File(path.getPath() + "/prizes/" + i));
+                addPrize(prize);
+            }
+        }
     }
 
     @Override

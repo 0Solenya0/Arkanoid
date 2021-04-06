@@ -5,6 +5,7 @@ import Arkanoid.Logic.models.Block.Block;
 import Arkanoid.graphic.MainFrame;
 import Arkanoid.graphic.panels.GamePanel;
 
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -155,6 +156,21 @@ public class Ball extends Model implements Savable<Ball> {
                 taskNormalizeFire.serialize() + "\n" +
                 taskNormalizeSpeed.serialize() + "\n";
         return res;
+    }
+
+    @Override
+    public void deserialize(Scanner serialized) {
+        xSpeed = serialized.nextDouble();
+        ySpeed = serialized.nextDouble();
+        prvx = serialized.nextDouble();
+        prvy = serialized.nextDouble();
+        x = serialized.nextDouble();
+        y = serialized.nextDouble();
+        w = serialized.nextInt();
+        h = serialized.nextInt();
+        isOnFire = serialized.nextBoolean();
+        taskNormalizeFire.deserialize(serialized);
+        taskNormalizeSpeed.deserialize(serialized);
     }
 
     public enum Events {

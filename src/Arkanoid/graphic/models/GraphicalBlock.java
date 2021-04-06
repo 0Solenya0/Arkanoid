@@ -25,6 +25,8 @@ public class GraphicalBlock extends GraphicalModel {
                 return;
             else if (t == 3)
                 g.setColor(Color.PINK);
+            else if (t == 4)
+                g.setColor(Color.GREEN);
             g.drawRect(x, y, w, h);
             g.fillRect(x, y, w, h);
         }
@@ -46,5 +48,7 @@ public class GraphicalBlock extends GraphicalModel {
             t = 2;
         if (block instanceof FlashingBlock)
             t = 3;
+        if (block instanceof PrizeBlock)
+            t = 4;
     }
 }

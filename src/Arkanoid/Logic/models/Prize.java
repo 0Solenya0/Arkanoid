@@ -5,6 +5,7 @@ import Arkanoid.Logic.GameState;
 import Arkanoid.graphic.GraphicalAgent;
 import Arkanoid.graphic.panels.GamePanel;
 
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -81,6 +82,15 @@ public class Prize extends Model implements Savable<Prize> {
                 w + " " + h + "\n" +
                 type + "\n";
         return res;
+    }
+
+    @Override
+    public void deserialize(Scanner serialized) {
+        x = serialized.nextInt();
+        y = serialized.nextInt();
+        w = serialized.nextInt();
+        h = serialized.nextInt();
+        type = PrizeType.valueOf(serialized.next());
     }
 
 

@@ -3,12 +3,13 @@ package Arkanoid.Logic;
 import Arkanoid.Logic.models.Savable;
 
 import java.io.File;
+import java.util.Scanner;
 
 public class Player implements Savable<Player> {
     public static File dataSRC = new File("./db/players/");
     public int id;
     private String name;
-    private int highScore, score;
+    private int highScore;
 
     public Player(String name) {
         this.name = name;
@@ -23,8 +24,14 @@ public class Player implements Savable<Player> {
     public String serialize() {
         String res = id + "\n" +
                 name + "\n" +
-                highScore + "\n" +
-                score + "\n";
+                highScore + "\n";
         return res;
+    }
+
+    @Override
+    public void deserialize(Scanner serialized) {
+        id = serialized.nextInt();
+        name = serialized.next();
+        highScore = serialized.nextInt();
     }
 }

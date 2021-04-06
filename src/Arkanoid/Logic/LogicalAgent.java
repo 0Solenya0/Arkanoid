@@ -29,8 +29,9 @@ public class LogicalAgent implements KeyListener {
     public void startGame(Player player) {
         isGameStarted = true;
 
-        gameState.initialSetup();
-        gameState.setPlayer(player);
+        gameState.load(new File(GameState.dataSRC + "/" + 1 + "/state"));
+        //gameState.initialSetup();
+        //gameState.setPlayer(player);
         gameState.start();
 
         resumeGame();
