@@ -25,6 +25,14 @@ public class Player implements Savable<Player> {
         }
     }
 
+    public int getHighScore() {
+        return highScore;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String serialize() {
         String res = id + "\n" +

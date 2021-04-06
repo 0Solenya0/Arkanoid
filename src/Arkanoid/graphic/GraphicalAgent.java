@@ -3,10 +3,7 @@ package Arkanoid.graphic;
 import Arkanoid.Listener;
 import Arkanoid.Logic.GameState;
 import Arkanoid.Logic.Player;
-import Arkanoid.graphic.panels.GamePanel;
-import Arkanoid.graphic.panels.GetPlayer;
-import Arkanoid.graphic.panels.LoadPanel;
-import Arkanoid.graphic.panels.MenuPanel;
+import Arkanoid.graphic.panels.*;
 import Arkanoid.Logic.LogicalAgent;
 
 import java.awt.*;
@@ -26,6 +23,7 @@ public class GraphicalAgent {
     GamePanel gamePanel;
     GetPlayer getPlayer;
     LoadPanel loadPanel;
+    ScoreBoardPanel scoreBoardPanel;
     Timer timer;
 
     public GraphicalAgent() {
@@ -46,6 +44,8 @@ public class GraphicalAgent {
                     askPlayer();
                 if (MenuPanel.Events.valueOf(e) == MenuPanel.Events.LOAD)
                     loadGame();
+                if (MenuPanel.Events.valueOf(e) == MenuPanel.Events.SCOREBOARD)
+                    scoreboard();
             }
         });
         frame.add(menuPanel);
@@ -85,6 +85,13 @@ public class GraphicalAgent {
                 startGame();
             }
         });
+    }
+
+    public void scoreboard() {
+        scoreBoardPanel = new ScoreBoardPanel();
+        frame.add(scoreBoardPanel);
+        frame.setSize(new Dimension(MainFrame.FRAME_WIDTH, ScoreBoardPanel.SCOREBOARDPANELH));
+        frame.repaint();
     }
 
     public void startGame() {

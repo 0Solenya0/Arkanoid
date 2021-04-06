@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class MenuPanel extends JPanel implements ActionListener {
 
     private ArrayList<Listener> listeners;
-    private JButton btnPlay, btnLoad;
+    private JButton btnPlay, btnLoad, btnScoreboard;
     private JLabel title;
 
     public MenuPanel() {
@@ -40,11 +40,21 @@ public class MenuPanel extends JPanel implements ActionListener {
         btnLoad.setBounds(100,450,200,50);
         btnLoad.addActionListener(this);
 
+        btnScoreboard = new JButton("Scoreboard");
+        btnScoreboard.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
+        btnScoreboard.setForeground(Color.WHITE);
+        btnScoreboard.setBorderPainted(false);
+        btnScoreboard.setFocusPainted(false);
+        btnScoreboard.setContentAreaFilled(false);
+        btnScoreboard.setBounds(100,550,200,50);
+        btnScoreboard.addActionListener(this);
+
         title = new JLabel("Arkanoid");
         title.setFont(new Font(Font.MONOSPACED, Font.BOLD, 30));
         title.setForeground(Color.WHITE);
         title.setBounds(125, 50, 200, 200);
 
+        this.add(btnScoreboard);
         this.add(btnPlay);
         this.add(btnLoad);
         this.add(title);
@@ -61,11 +71,14 @@ public class MenuPanel extends JPanel implements ActionListener {
                 listener.listen(Events.PLAY.toString());
             if (e.getSource() == btnLoad)
                 listener.listen(Events.LOAD.toString());
+            if (e.getSource() == btnScoreboard)
+                listener.listen(Events.SCOREBOARD.toString());
         }
     }
 
     public enum Events {
         PLAY,
-        LOAD
+        LOAD,
+        SCOREBOARD
     }
 }
