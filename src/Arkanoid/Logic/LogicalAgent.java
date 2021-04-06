@@ -77,6 +77,7 @@ public class LogicalAgent implements KeyListener {
         if (isGameStarted && !isGameOver) {
             if (gameState.addRow <= 0) {
                 gameState.addBlockRow();
+                gameState.addScore(100);
                 gameState.addRow = 30000;
             }
             ArrayList<Block> blocks = new ArrayList<>(gameState.getBlocks());
@@ -97,9 +98,12 @@ public class LogicalAgent implements KeyListener {
             ArrayList<Block> blocks = new ArrayList<>(gameState.getBlocks());
             for (Block block: blocks) {
                 if (block.isHitable() && ball.bounceIfCollide(block)) {
+                    gameState.addScore(10);
                     block.ballHit();
-                    if (ball.isOnFire() && block instanceof WoddenBlock)
+                    if (ball.isOnFire() && block instanceof WoddenBlock) {
                         block.ballHit();
+                        gameState.addScore(10);
+                    }
                 }
             }
         }
@@ -119,8 +123,10 @@ public class LogicalAgent implements KeyListener {
     public void checkPrizeLogic() {
         ArrayList<Prize> prizes = new ArrayList<>(gameState.getPrizes());
         for (Prize prize: prizes) {
-            if (prize.collideWithBoard(gameState.getBoard()))
+            if (prize.collideWithBoard(gameState.getBoard())) {
                 gameState.usePrize(prize.getType());
+                gameState.addScore(20);
+            }
         }
     }
 

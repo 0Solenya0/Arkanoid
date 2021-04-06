@@ -216,6 +216,10 @@ public class GameState implements Savable<GameState> {
         return score;
     }
 
+    public void addScore(int m) {
+        score += m;
+    }
+
     public boolean isFinished() {
         return isFinished;
     }
