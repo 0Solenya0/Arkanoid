@@ -16,7 +16,6 @@ import java.util.TimerTask;
 public class LogicalAgent implements KeyListener {
     private GameState gameState;
     boolean isGameStarted, isGameOver, isPaused;
-    int addRow = 30000;
     Timer timer;
 
     public LogicalAgent() {
@@ -35,6 +34,12 @@ public class LogicalAgent implements KeyListener {
         resumeGame();
     }
 
+    public void startGame() {
+        isGameStarted = true;
+
+        resumeGame();
+    }
+
     public void resumeGame() {
         if (!isGameStarted)
             return;
@@ -43,7 +48,7 @@ public class LogicalAgent implements KeyListener {
             @Override
             public void run() {
                 checkLogic();
-                addRow -= 10;
+                gameState.addRow -= 10;
             }
         }, 0, 10);
         gameState.start();
@@ -70,9 +75,9 @@ public class LogicalAgent implements KeyListener {
 
     public void checkLogic() {
         if (isGameStarted && !isGameOver) {
-            if (addRow <= 0) {
+            if (gameState.addRow <= 0) {
                 gameState.addBlockRow();
-                addRow = 30000;
+                gameState.addRow = 30000;
             }
             ArrayList<Block> blocks = new ArrayList<>(gameState.getBlocks());
             for (Block block: blocks) {
@@ -134,7 +139,6 @@ public class LogicalAgent implements KeyListener {
 
     public void restartButtonClick() {
         pauseGame();
-        addRow = 30000;
         int id = gameState.gameId;
         Player player = gameState.getPlayer();
         gameState = new GameState();

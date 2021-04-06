@@ -9,7 +9,9 @@ import Arkanoid.Logic.models.Savable;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.text.DateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
@@ -23,9 +25,10 @@ public class GameState implements Savable<GameState> {
     private ArrayList<Block> blocks;
     private ArrayList<Prize> prizes;
     private int playerLives, score;
-    public int gameId;
+    public int gameId, addRow = 30000;
     private LocalDateTime createdAt;
     private boolean isFinished;
+    public String name;
 
     public GameState() {
         blocks = new ArrayList<>();
@@ -213,6 +216,15 @@ public class GameState implements Savable<GameState> {
         return score;
     }
 
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public String getCreatedAt() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return createdAt.format(formatter);
+    }
+
     @Override
     public String serialize() {
         String res = gameId + "\n" +
@@ -220,7 +232,9 @@ public class GameState implements Savable<GameState> {
                 playerLives + "\n" +
                 score + "\n" +
                 player.id + "\n" +
-                isFinished + "\n";
+                isFinished + "\n" +
+                addRow + "\n" +
+                name + "\n";
         return res;
     }
 
@@ -233,6 +247,8 @@ public class GameState implements Savable<GameState> {
         player = new Player("");
         player.id = serialized.nextInt();
         isFinished = serialized.nextBoolean();
+        addRow = serialized.nextInt();
+        name = serialized.next();
     }
 
     @Override
