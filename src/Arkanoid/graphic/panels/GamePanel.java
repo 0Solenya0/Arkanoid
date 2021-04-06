@@ -28,33 +28,36 @@ public class GamePanel extends JPanel {
     ArrayList<GraphicalBlock> graphicalBlocks;
     ArrayList<GraphicalPrize> graphicalPrizes;
 
-    JButton pauseBtn;
     Image pauseImg;
-
-    JButton restartBtn;
     Image restartImg;
+    Image saveImg;
 
-    public GamePanel(ActionListener pauseActionListener, ActionListener restartActionListener) {
+    public GamePanel(ActionListener pauseActionListener,
+                     ActionListener restartActionListener,
+                     ActionListener saveActionListener) {
         this.setLayout(null);
         this.setBackground(Color.BLACK);
         this.setBounds(0,0, MainFrame.FRAME_WIDTH,MainFrame.FRAME_HEIGHT);
 
-        configureButton(pauseBtn, pauseImg, pauseActionListener, 5, MainFrame.FRAME_HEIGHT - 80, 40, 40);
-        configureButton(restartBtn, restartImg, restartActionListener, 50, MainFrame.FRAME_HEIGHT - 80, 40, 40);
+        configureButton(pauseActionListener, 5, MainFrame.FRAME_HEIGHT - 80, 40, 40);
+        configureButton(restartActionListener, 50, MainFrame.FRAME_HEIGHT - 80, 40, 40);
+        configureButton(saveActionListener, 95, MainFrame.FRAME_HEIGHT - 80, 40, 40);
 
         try {
             pauseImg = ImageIO.read(new File("./resources/pause.png"));
             pauseImg = pauseImg.getScaledInstance(40, 40, Image.SCALE_DEFAULT);
             restartImg = ImageIO.read(new File("./resources/restart.png"));
             restartImg = restartImg.getScaledInstance(40, 40, Image.SCALE_DEFAULT);
+            saveImg = ImageIO.read(new File("./resources/save.png"));
+            saveImg = saveImg.getScaledInstance(40, 40, Image.SCALE_DEFAULT);
         }
         catch (Exception e) { }
 
         board = new GraphicalBoard(0, defaultBoardH);
     }
 
-    public void configureButton(JButton btn, Image btnImg, ActionListener listener, int x, int y, int w, int h) {
-        btn = new JButton();
+    public void configureButton(ActionListener listener, int x, int y, int w, int h) {
+        JButton btn = new JButton();
         btn.setOpaque(false);
         btn.setContentAreaFilled(false);
         btn.setBorderPainted(false);
@@ -101,5 +104,6 @@ public class GamePanel extends JPanel {
             graphicalPrize.paint(g2d);
         g2d.drawImage(pauseImg, 5, MainFrame.FRAME_HEIGHT - 80, null);
         g2d.drawImage(restartImg, 50, MainFrame.FRAME_HEIGHT - 80, null);
+        g2d.drawImage(saveImg, 95, MainFrame.FRAME_HEIGHT - 80, null);
     }
 }

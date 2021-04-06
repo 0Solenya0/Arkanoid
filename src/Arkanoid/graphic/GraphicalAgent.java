@@ -64,7 +64,8 @@ public class GraphicalAgent {
 
 
             gamePanel = new GamePanel(actionEvent -> logicalAgent.pauseButtonClick(),
-                    actionEvent -> logicalAgent.restartButtonClick());
+                    actionEvent -> logicalAgent.restartButtonClick(),
+                    actionEvent -> logicalAgent.saveGame());
             frame.addKeyListener(logicalAgent);
 
             frame.setSize(new Dimension(MainFrame.FRAME_WIDTH, MainFrame.FRAME_HEIGHT));
