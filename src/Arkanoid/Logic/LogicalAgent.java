@@ -36,6 +36,8 @@ public class LogicalAgent implements KeyListener {
     }
 
     public void resumeGame() {
+        if (!isGameStarted)
+            return;
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -50,6 +52,7 @@ public class LogicalAgent implements KeyListener {
     public void pauseGame() {
         timer.cancel();
         timer.purge();
+        timer = new Timer();
         gameState.pause();
     }
 
@@ -58,6 +61,7 @@ public class LogicalAgent implements KeyListener {
         isGameOver = true;
         timer.cancel();
         timer.purge();
+        pauseGame();
         gameState.gameOver();
         gameState.getPlayer().setHighScore(gameState.getScore());
         gameState.getPlayer().save(new File(Player.dataSRC + "/" + gameState.getPlayer().id));
@@ -65,7 +69,7 @@ public class LogicalAgent implements KeyListener {
     }
 
     public void checkLogic() {
-        if (isGameStarted) {
+        if (isGameStarted && !isGameOver) {
             if (addRow <= 0) {
                 gameState.addBlockRow();
                 addRow = 30000;

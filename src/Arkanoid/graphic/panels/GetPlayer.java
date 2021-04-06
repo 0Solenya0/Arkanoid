@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class GetPlayer extends JPanel implements ActionListener {
     public static final int GETPLAYERPANELH = 220;
 
-    ArrayList<Listener> listeners;
+    public ArrayList<Listener> listeners;
     JButton submitBtn;
     JTextArea textArea;
     JLabel label;
@@ -48,7 +48,8 @@ public class GetPlayer extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        for (Listener listener: listeners) {
+        ArrayList<Listener> listeners1 = new ArrayList<>(listeners);
+        for (Listener listener: listeners1) {
             listener.listen(textArea.getText());
         }
     }

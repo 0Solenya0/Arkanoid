@@ -24,20 +24,16 @@ public class GraphicalAgent {
     GamePanel gamePanel;
     Timer timer;
 
-    public GraphicalAgent(LogicalAgent logicalAgent) {
-        this.logicalAgent = logicalAgent;
+    public GraphicalAgent() {
         frame = new MainFrame();
         menuPanel = new MenuPanel();
         timer = new Timer();
         showMenu();
     }
 
-    public void updateState(GameState gameState) {
-        gamePanel.updateState(gameState);
-    }
-
     public void showMenu() {
         frame.setSize(new Dimension(MainFrame.FRAME_WIDTH, MainFrame.FRAME_HEIGHT));
+        menuPanel = new MenuPanel();
         menuPanel.addListener(new Listener() {
             @Override
             public void listen(String e) {
@@ -50,6 +46,7 @@ public class GraphicalAgent {
     }
 
     public void startGame() {
+        logicalAgent = new LogicalAgent();
         frame.remove(menuPanel);
 
         GetPlayer getPlayer = new GetPlayer();
@@ -58,6 +55,7 @@ public class GraphicalAgent {
         frame.repaint();
 
         getPlayer.addListener(s -> {
+            getPlayer.listeners.clear();
             frame.remove(getPlayer);
             //TO DO : GET OR CREATE THE PLAYER
             Player tmp = new Player(s);
@@ -80,6 +78,7 @@ public class GraphicalAgent {
                     if (logicalAgent.isGameOver()) {
                         timer.cancel();
                         timer.purge();
+                        timer = new Timer();
                         gamePanel.paintGameOver();
                         frame.repaint();
                         try {
@@ -89,12 +88,19 @@ public class GraphicalAgent {
                         }
                         frame.remove(gamePanel);
                         frame.removeKeyListener(logicalAgent);
+                        frame.invalidate();
+                        frame.validate();
                         showMenu();
+                        return;
                     }
                     if (logicalAgent.isGameStarted())
                         updateState(logicalAgent.getGameState());
                 }
             }, 0, 1000 / fps);
         });
+    }
+
+    public void updateState(GameState gameState) {
+        gamePanel.updateState(gameState);
     }
 }

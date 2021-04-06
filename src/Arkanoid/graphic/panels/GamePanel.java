@@ -54,6 +54,9 @@ public class GamePanel extends JPanel {
         catch (Exception e) { }
 
         board = new GraphicalBoard(0, defaultBoardH);
+        balls = new ArrayList<>();
+        graphicalPrizes = new ArrayList<>();
+        graphicalBlocks = new ArrayList<>();
     }
 
     public void configureButton(ActionListener listener, int x, int y, int w, int h) {
