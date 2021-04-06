@@ -101,7 +101,7 @@ public class GameState implements Savable<GameState> {
                     int x = scanner.nextInt(), y = scanner.nextInt();
                     Prize prize = new Prize(x, y, Prize.PrizeType.valueOf(type));
                     addPrize(prize);
-                    start();
+                    prize.fall();
                 }
             }
         };

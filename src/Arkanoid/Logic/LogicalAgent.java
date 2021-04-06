@@ -111,6 +111,16 @@ public class LogicalAgent implements KeyListener {
             resumeGame();
     }
 
+    public void restartButtonClick() {
+        pauseGame();
+        addRow = 30000;
+        int id = gameState.gameId;
+        Player player = gameState.getPlayer();
+        gameState = new GameState();
+        gameState.gameId = id;
+        startGame(player);
+    }
+
     @Override
     public void keyTyped(KeyEvent keyEvent) {
 
