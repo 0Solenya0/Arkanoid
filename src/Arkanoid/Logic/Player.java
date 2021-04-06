@@ -11,6 +11,10 @@ public class Player implements Savable<Player> {
     private String name;
     private int highScore;
 
+    public void setHighScore(int highScore) {
+        this.highScore = Math.max(highScore, this.highScore);
+    }
+
     public Player(String name) {
         this.name = name;
         id = Savable.getLastId(dataSRC) + 1;

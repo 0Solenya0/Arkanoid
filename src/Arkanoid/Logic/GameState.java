@@ -25,6 +25,7 @@ public class GameState implements Savable<GameState> {
     private int playerLives, score;
     public int gameId;
     private LocalDateTime createdAt;
+    private boolean isFinished;
 
     public GameState() {
         blocks = new ArrayList<>();
@@ -33,6 +34,11 @@ public class GameState implements Savable<GameState> {
         board = new Board();
         gameId = Savable.getLastId(dataSRC) + 1;
         createdAt = LocalDateTime.now();
+    }
+
+    public void gameOver() {
+        isFinished = true;
+        pause();
     }
 
     public void initialSetup() {
@@ -53,6 +59,8 @@ public class GameState implements Savable<GameState> {
     }
 
     public void start() {
+        if (isFinished)
+            return;
         ArrayList<Ball> balls1 = new ArrayList<>(balls);
         ArrayList<Prize> prizes1 = new ArrayList<>(prizes);
         ArrayList<Block> blocks1 = new ArrayList<>(blocks);
@@ -201,13 +209,18 @@ public class GameState implements Savable<GameState> {
         return player;
     }
 
+    public int getScore() {
+        return score;
+    }
+
     @Override
     public String serialize() {
         String res = gameId + "\n" +
                 createdAt + "\n" +
                 playerLives + "\n" +
                 score + "\n" +
-                player.id + "\n";
+                player.id + "\n" +
+                isFinished + "\n";
         return res;
     }
 
@@ -219,6 +232,7 @@ public class GameState implements Savable<GameState> {
         score = serialized.nextInt();
         player = new Player("");
         player.id = serialized.nextInt();
+        isFinished = serialized.nextBoolean();
     }
 
     @Override

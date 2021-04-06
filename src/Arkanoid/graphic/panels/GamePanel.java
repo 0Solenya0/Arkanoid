@@ -67,6 +67,15 @@ public class GamePanel extends JPanel {
         this.add(btn);
     }
 
+    public void paintGameOver() {
+        JLabel label = new JLabel("GAME OVER");
+        label.setFont(new Font(Font.MONOSPACED, Font.BOLD, 40));
+        label.setForeground(Color.RED);
+        label.setBounds(90, 100, 400, 200);
+        this.add(label);
+        this.repaint();
+    }
+
     public void updateState(GameState state) {
         board.updateState(state.getBoard());
         balls = new ArrayList<>();

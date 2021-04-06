@@ -4,8 +4,7 @@ import Arkanoid.Logic.models.Ball;
 import Arkanoid.Logic.models.Block.Block;
 import Arkanoid.Logic.models.Block.WoddenBlock;
 import Arkanoid.Logic.models.Prize;
-import Arkanoid.Logic.models.Task;
-import Arkanoid.graphic.GraphicalAgent;
+import Arkanoid.graphic.panels.GamePanel;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -16,7 +15,7 @@ import java.util.TimerTask;
 
 public class LogicalAgent implements KeyListener {
     private GameState gameState;
-    boolean isGameStarted, isPaused;
+    boolean isGameStarted, isGameOver, isPaused;
     int addRow = 30000;
     Timer timer;
 
@@ -56,6 +55,13 @@ public class LogicalAgent implements KeyListener {
 
     public void gameOver() {
         isGameStarted = false;
+        isGameOver = true;
+        timer.cancel();
+        timer.purge();
+        gameState.gameOver();
+        gameState.getPlayer().setHighScore(gameState.getScore());
+        gameState.getPlayer().save(new File(Player.dataSRC + "/" + gameState.getPlayer().id));
+        gameState.save(new File(GameState.dataSRC + "/" + gameState.gameId + "/state"));
     }
 
     public void checkLogic() {
@@ -63,6 +69,14 @@ public class LogicalAgent implements KeyListener {
             if (addRow <= 0) {
                 gameState.addBlockRow();
                 addRow = 30000;
+            }
+            ArrayList<Block> blocks = new ArrayList<>(gameState.getBlocks());
+            for (Block block: blocks) {
+                int h = block.getY() + block.getHeight();
+                if (h >= GamePanel.defaultBoardH) {
+                    gameOver();
+                    return;
+                }
             }
             checkBallLogic();
             checkPrizeLogic();
@@ -152,4 +166,7 @@ public class LogicalAgent implements KeyListener {
         return gameState;
     }
 
+    public boolean isGameOver() {
+        return isGameOver;
+    }
 }

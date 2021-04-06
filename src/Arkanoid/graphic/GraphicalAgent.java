@@ -37,6 +37,7 @@ public class GraphicalAgent {
     }
 
     public void showMenu() {
+        frame.setSize(new Dimension(MainFrame.FRAME_WIDTH, MainFrame.FRAME_HEIGHT));
         menuPanel.addListener(new Listener() {
             @Override
             public void listen(String e) {
@@ -76,6 +77,20 @@ public class GraphicalAgent {
                 @Override
                 public void run() {
                     Toolkit.getDefaultToolkit().sync(); //Fixes Linux Lag
+                    if (logicalAgent.isGameOver()) {
+                        timer.cancel();
+                        timer.purge();
+                        gamePanel.paintGameOver();
+                        frame.repaint();
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        frame.remove(gamePanel);
+                        frame.removeKeyListener(logicalAgent);
+                        showMenu();
+                    }
                     if (logicalAgent.isGameStarted())
                         updateState(logicalAgent.getGameState());
                 }
