@@ -27,6 +27,7 @@ public class GamePanel extends JPanel {
     ArrayList<GraphicalBall> balls;
     ArrayList<GraphicalBlock> graphicalBlocks;
     ArrayList<GraphicalPrize> graphicalPrizes;
+    JLabel score;
 
     Image pauseImg;
     Image restartImg;
@@ -40,6 +41,12 @@ public class GamePanel extends JPanel {
         this.setLayout(null);
         this.setBackground(Color.BLACK);
         this.setBounds(0,0, MainFrame.FRAME_WIDTH,MainFrame.FRAME_HEIGHT);
+
+        score = new JLabel("0");
+        score.setForeground(Color.WHITE);
+        score.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
+        score.setBounds(180, 500,380, 30);
+        this.add(score);
 
         configureButton(pauseActionListener, 5, MainFrame.FRAME_HEIGHT - 80, 40, 40);
         configureButton(restartActionListener, 50, MainFrame.FRAME_HEIGHT - 80, 40, 40);
@@ -85,6 +92,7 @@ public class GamePanel extends JPanel {
     }
 
     public void updateState(GameState state) {
+        score.setText(String.valueOf(state.getScore()));
         board.updateState(state.getBoard());
         balls = new ArrayList<>();
         ArrayList<Ball> gameStateBalls = new ArrayList<>(state.getBalls());
