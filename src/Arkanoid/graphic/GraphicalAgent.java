@@ -130,11 +130,30 @@ public class GraphicalAgent {
                                     dialog.dispatchEvent(new WindowEvent(dialog, WindowEvent.WINDOW_CLOSING));
                                 }
                             });
-                        }
-                        else
+                        } else
                             logicalAgent.saveGame("", n);
                     }
-                });
+                }, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                timer.cancel();
+                timer.purge();
+                timer = new Timer();
+                logicalAgent.gameOver();
+                gamePanel.paintGameOver();
+                frame.repaint();
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                frame.remove(gamePanel);
+                frame.removeKeyListener(logicalAgent);
+                frame.invalidate();
+                frame.validate();
+                showMenu();
+            }
+        });
         frame.addKeyListener(logicalAgent);
 
         frame.setSize(new Dimension(MainFrame.FRAME_WIDTH, MainFrame.FRAME_HEIGHT));

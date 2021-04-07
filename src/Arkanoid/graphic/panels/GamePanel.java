@@ -31,10 +31,12 @@ public class GamePanel extends JPanel {
     Image pauseImg;
     Image restartImg;
     Image saveImg;
+    Image exitImg;
 
     public GamePanel(ActionListener pauseActionListener,
                      ActionListener restartActionListener,
-                     ActionListener saveActionListener) {
+                     ActionListener saveActionListener,
+                     ActionListener exitActionListener) {
         this.setLayout(null);
         this.setBackground(Color.BLACK);
         this.setBounds(0,0, MainFrame.FRAME_WIDTH,MainFrame.FRAME_HEIGHT);
@@ -42,6 +44,7 @@ public class GamePanel extends JPanel {
         configureButton(pauseActionListener, 5, MainFrame.FRAME_HEIGHT - 80, 40, 40);
         configureButton(restartActionListener, 50, MainFrame.FRAME_HEIGHT - 80, 40, 40);
         configureButton(saveActionListener, 95, MainFrame.FRAME_HEIGHT - 80, 40, 40);
+        configureButton(exitActionListener, MainFrame.FRAME_WIDTH - 50, MainFrame.FRAME_HEIGHT - 80, 40, 40);
 
         try {
             pauseImg = ImageIO.read(new File("./resources/pause.png"));
@@ -50,6 +53,8 @@ public class GamePanel extends JPanel {
             restartImg = restartImg.getScaledInstance(40, 50, Image.SCALE_DEFAULT);
             saveImg = ImageIO.read(new File("./resources/save.png"));
             saveImg = saveImg.getScaledInstance(40, 40, Image.SCALE_DEFAULT);
+            exitImg = ImageIO.read(new File("./resources/exit.png"));
+            exitImg = exitImg.getScaledInstance(40, 40, Image.SCALE_DEFAULT);
         }
         catch (Exception e) { }
 
@@ -117,5 +122,6 @@ public class GamePanel extends JPanel {
         g2d.drawImage(pauseImg, 5, MainFrame.FRAME_HEIGHT - 80, null);
         g2d.drawImage(restartImg, 50, MainFrame.FRAME_HEIGHT - 85, null);
         g2d.drawImage(saveImg, 95, MainFrame.FRAME_HEIGHT - 80, null);
+        g2d.drawImage(exitImg, MainFrame.FRAME_WIDTH - 50, MainFrame.FRAME_HEIGHT - 80, null);
     }
 }
