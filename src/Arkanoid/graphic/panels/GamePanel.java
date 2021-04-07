@@ -15,6 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GamePanel extends ExtendedPanel {
     public static final int defaultBoardH = 450;
@@ -86,6 +87,13 @@ public class GamePanel extends ExtendedPanel {
             graphicalPrizes.add(graphicalPrize);
         }
         images.clear();
+
+        for (int i = 0; i < 50; i++) {
+            Random random = new Random();
+            addImage(ImageLoader.getImage("star.png", 20, 20), random.nextInt(400),
+                    random.nextInt(600), 20, 20);
+        }
+
         for (int i = 0; i < state.getPlayerLives(); i++)
             addImage(ImageLoader.getImage("heart.png", 50, 50), i * 60, 550, 50, 50);
         repaint();

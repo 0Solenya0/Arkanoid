@@ -2,14 +2,16 @@ package Arkanoid.graphic.panels;
 
 import Arkanoid.Listener;
 import Arkanoid.graphic.MainFrame;
+import Arkanoid.graphic.util.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Random;
 
-public class MenuPanel extends JPanel implements ActionListener {
+public class MenuPanel extends ExtendedPanel implements ActionListener {
 
     private ArrayList<Listener> listeners;
     private JButton btnPlay, btnLoad, btnScoreboard;
@@ -53,6 +55,12 @@ public class MenuPanel extends JPanel implements ActionListener {
         title.setFont(new Font(Font.MONOSPACED, Font.BOLD, 30));
         title.setForeground(Color.WHITE);
         title.setBounds(125, 50, 200, 200);
+
+        for (int i = 0; i < 100; i++) {
+            Random random = new Random();
+            addImage(ImageLoader.getImage("star.png", 20, 20), random.nextInt(400),
+                    random.nextInt(600), 20, 20);
+        }
 
         this.add(btnScoreboard);
         this.add(btnPlay);
