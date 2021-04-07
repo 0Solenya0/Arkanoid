@@ -40,7 +40,7 @@ public class LoadPanel extends ExtendedPanel implements ActionListener {
                 , MainFrame.FRAME_WIDTH - 50, LoadPanel.LOADPANELH - 80, 40, 40);
 
         int cnt = Objects.requireNonNull(GameState.dataSRC.list()).length;
-        for (int i = 1; i <= cnt; i++) {
+        for (int i = cnt; i >= 1; i--) {
             GameState gameState = new GameState();
             gameState.load(new File(GameState.dataSRC.getPath() + "/" + i + "/state"));
             if (gameState.isFinished())
