@@ -11,13 +11,20 @@ import java.util.ArrayList;
 public abstract class ExtendedPanel extends JPanel {
 
     ArrayList<Image> btnImages = new ArrayList<>();
+    ArrayList<Image> images = new ArrayList<>();
     ArrayList<Pos> btnPositions = new ArrayList<>();
+    ArrayList<Pos> imagePositions = new ArrayList<>();
 
     public ArrayList<Listener> listeners;
 
     public ExtendedPanel() {
         super();
         listeners = new ArrayList<>();
+    }
+
+    public void addImage(Image image, int x, int y, int w, int h) {
+        images.add(image);
+        imagePositions.add(new Pos(x, y, w, h));
     }
 
     public JButton addButton(ActionListener listener, Image image, int x, int y, int w, int h) {
@@ -58,6 +65,10 @@ public abstract class ExtendedPanel extends JPanel {
         for (int i = 0; i < btnImages.size(); i++) {
             Pos pos = btnPositions.get(i);
             g.drawImage(btnImages.get(i), pos.x, pos.y, null);
+        }
+        for (int i = 0; i < images.size(); i++) {
+            Pos pos = imagePositions.get(i);
+            g.drawImage(images.get(i), pos.x, pos.y, null);
         }
     }
 }

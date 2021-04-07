@@ -114,7 +114,7 @@ public class LogicalAgent implements KeyListener {
                 }
             }
             double len = gameState.getBoard().getLength(), x = gameState.getBoard().getX();
-            if (ball.getY() + Ball.defaultH > GamePanel.defaultBoardH) {
+            if (ball.getY() + Ball.defaultH - 7 > GamePanel.defaultBoardH) {
                    if (x <= ball.getX() + Ball.defaultW && ball.getX() <= x + len) {
                        double mid = x + len / 2;
                        double alpha = Math.atan(Math.abs(ball.getxSpeed() / ball.getySpeed()));

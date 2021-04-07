@@ -85,6 +85,9 @@ public class GamePanel extends ExtendedPanel {
             graphicalPrize.updateState(prize);
             graphicalPrizes.add(graphicalPrize);
         }
+        images.clear();
+        for (int i = 0; i < state.getPlayerLives(); i++)
+            addImage(ImageLoader.getImage("heart.png", 50, 50), i * 60, 550, 50, 50);
         repaint();
     }
 
