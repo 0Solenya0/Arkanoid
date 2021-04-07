@@ -25,7 +25,7 @@ public class GameState implements Savable<GameState> {
     private ArrayList<Block> blocks;
     private ArrayList<Prize> prizes;
     private int playerLives, score;
-    public int gameId, addRow = 30000;
+    public int gameId, addRow = 30000, age;
     private LocalDateTime createdAt;
     private boolean isFinished;
     public String name;
@@ -244,7 +244,8 @@ public class GameState implements Savable<GameState> {
                 player.id + "\n" +
                 isFinished + "\n" +
                 addRow + "\n" +
-                name + "\n";
+                name + "\n" +
+                age + "\n";
         return res;
     }
 
@@ -259,6 +260,7 @@ public class GameState implements Savable<GameState> {
         isFinished = serialized.nextBoolean();
         addRow = serialized.nextInt();
         name = serialized.next();
+        age = serialized.nextInt();
     }
 
     @Override

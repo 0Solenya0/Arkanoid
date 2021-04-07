@@ -15,6 +15,7 @@ public class Ball extends Model implements Savable<Ball> {
     private final Task taskNormalizeSpeed = new Task(this::setSpeedToNormal);
     private final Task taskNormalizeFire = new Task(this::setOnFireToNormal);
 
+    private double baseXSpeed = 1, baseYSpeed = 1;
     Timer timerMovement = new Timer();
     private double xSpeed = 1, ySpeed = -1;
     private double prvx, prvy, x, y;
@@ -29,6 +30,17 @@ public class Ball extends Model implements Savable<Ball> {
         prvy = y;
         w = defaultW;
         h = defaultH;
+    }
+
+    public void updateBaseSpeed(int age) {
+        baseXSpeed = 1;
+        baseYSpeed = 1;
+        while (age > 0) {
+            age -= 15000;
+            baseXSpeed *= 1.1;
+            baseYSpeed *= 1.1;
+        }
+        System.out.println(baseXSpeed);
     }
 
     public boolean bounceIfCollide(Block b) {
@@ -64,8 +76,8 @@ public class Ball extends Model implements Savable<Ball> {
     public void move(double ms) {
         prvx = x;
         prvy = y;
-        x += ms * xSpeed / 10;
-        y += ms * ySpeed / 10;
+        x += ms * xSpeed * baseXSpeed / 10;
+        y += ms * ySpeed * baseYSpeed / 10;
         Bounce();
     }
 
@@ -76,7 +88,7 @@ public class Ball extends Model implements Savable<Ball> {
         timerMovement.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                move(10);
+                move(20);
             }
         }, 0, 20);
         taskNormalizeFire.resume();
@@ -93,15 +105,15 @@ public class Ball extends Model implements Savable<Ball> {
     public void usePrize(Prize.PrizeType prize) {
         if (prize.equals(Prize.PrizeType.FASTBALL)) {
             setSpeedToNormal();
-            xSpeed *= 2.5;
-            ySpeed *= 2.5;
+            xSpeed *= 2;
+            ySpeed *= 2;
             taskNormalizeSpeed.renewTask(6000);
         }
         if (prize.equals(Prize.PrizeType.SLOWBALL)) {
             setSpeedToNormal();
             xSpeed *= 0.5;
             ySpeed *= 0.5;
-            taskNormalizeSpeed.renewTask(6000);
+            taskNormalizeSpeed.renewTask(4000);
         }
         if (prize.equals(Prize.PrizeType.FIREBALL)) {
             isOnFire = true;

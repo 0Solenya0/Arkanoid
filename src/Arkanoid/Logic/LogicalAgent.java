@@ -50,7 +50,8 @@ public class LogicalAgent implements KeyListener {
             @Override
             public void run() {
                 checkLogic();
-                gameState.addRow -= 10;
+                gameState.addRow -= 20;
+                gameState.age += 20;
             }
         }, 0, 20);
         gameState.start();
@@ -97,6 +98,7 @@ public class LogicalAgent implements KeyListener {
 
     public void checkBallLogic() {
         for (Ball ball: gameState.getBalls()) {
+            ball.updateBaseSpeed(gameState.age);
             ArrayList<Block> blocks = new ArrayList<>(gameState.getBlocks());
             for (Block block: blocks) {
                 if (block.isHitable() && ball.bounceIfCollide(block)) {
