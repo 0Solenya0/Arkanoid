@@ -64,7 +64,7 @@ public class LogicalAgent implements KeyListener {
         gameState.pause();
     }
 
-    public void gameOver() {
+    public void gameOver(boolean save) {
         isGameStarted = false;
         isGameOver = true;
         timer.cancel();
@@ -72,8 +72,10 @@ public class LogicalAgent implements KeyListener {
         pauseGame();
         gameState.gameOver();
         gameState.getPlayer().setHighScore(gameState.getScore());
-        gameState.getPlayer().save(new File(Player.dataSRC + "/" + gameState.getPlayer().id));
-        gameState.save(new File(GameState.dataSRC + "/" + gameState.gameId + "/state"));
+        if (save) {
+            gameState.getPlayer().save(new File(Player.dataSRC + "/" + gameState.getPlayer().id));
+            gameState.save(new File(GameState.dataSRC + "/" + gameState.gameId + "/state"));
+        }
     }
 
     public void checkLogic() {
@@ -87,7 +89,7 @@ public class LogicalAgent implements KeyListener {
             for (Block block: blocks) {
                 int h = block.getY() + block.getHeight();
                 if (h >= GamePanel.defaultBoardH) {
-                    gameOver();
+                    gameOver(true);
                     return;
                 }
             }
@@ -115,7 +117,7 @@ public class LogicalAgent implements KeyListener {
             int l = gameState.getPlayerLives();
             l -= 1;
             if (l == 0)
-                gameOver();
+                gameOver(true);
             else {
                 gameState.newBall();
                 gameState.start();

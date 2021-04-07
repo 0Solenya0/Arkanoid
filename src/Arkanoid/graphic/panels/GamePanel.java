@@ -1,6 +1,5 @@
 package Arkanoid.graphic.panels;
 
-import Arkanoid.Listener;
 import Arkanoid.Logic.GameState;
 import Arkanoid.Logic.models.Ball;
 import Arkanoid.Logic.models.Block.Block;
@@ -10,17 +9,14 @@ import Arkanoid.graphic.models.GraphicalBall;
 import Arkanoid.graphic.models.GraphicalBlock;
 import Arkanoid.graphic.models.GraphicalBoard;
 import Arkanoid.graphic.models.GraphicalPrize;
+import Arkanoid.graphic.util.ImageLoader;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends ExtendedPanel {
     public static final int defaultBoardH = 450;
 
     GraphicalBoard board;
@@ -28,11 +24,6 @@ public class GamePanel extends JPanel {
     ArrayList<GraphicalBlock> graphicalBlocks;
     ArrayList<GraphicalPrize> graphicalPrizes;
     JLabel score;
-
-    Image pauseImg;
-    Image restartImg;
-    Image saveImg;
-    Image exitImg;
 
     public GamePanel(ActionListener pauseActionListener,
                      ActionListener restartActionListener,
@@ -48,38 +39,19 @@ public class GamePanel extends JPanel {
         score.setBounds(180, 500,380, 30);
         this.add(score);
 
-        configureButton(pauseActionListener, 5, MainFrame.FRAME_HEIGHT - 80, 40, 40);
-        configureButton(restartActionListener, 50, MainFrame.FRAME_HEIGHT - 80, 40, 40);
-        configureButton(saveActionListener, 95, MainFrame.FRAME_HEIGHT - 80, 40, 40);
-        configureButton(exitActionListener, MainFrame.FRAME_WIDTH - 50, MainFrame.FRAME_HEIGHT - 80, 40, 40);
-
-        try {
-            pauseImg = ImageIO.read(new File("./resources/pause.png"));
-            pauseImg = pauseImg.getScaledInstance(40, 40, Image.SCALE_DEFAULT);
-            restartImg = ImageIO.read(new File("./resources/restart.png"));
-            restartImg = restartImg.getScaledInstance(40, 50, Image.SCALE_DEFAULT);
-            saveImg = ImageIO.read(new File("./resources/save.png"));
-            saveImg = saveImg.getScaledInstance(40, 40, Image.SCALE_DEFAULT);
-            exitImg = ImageIO.read(new File("./resources/exit.png"));
-            exitImg = exitImg.getScaledInstance(40, 40, Image.SCALE_DEFAULT);
-        }
-        catch (Exception e) { }
+        addButton(pauseActionListener, ImageLoader.getImage("pause.png", 40, 40)
+                , 5, MainFrame.FRAME_HEIGHT - 80, 40, 40);
+        addButton(restartActionListener, ImageLoader.getImage("restart.png", 40, 40)
+                ,50, MainFrame.FRAME_HEIGHT - 80, 40, 40);
+        addButton(saveActionListener, ImageLoader.getImage("save.png", 40, 40)
+                , 95, MainFrame.FRAME_HEIGHT - 80, 40, 40);
+        addButton(exitActionListener, ImageLoader.getImage("exit.png", 40, 40)
+                ,MainFrame.FRAME_WIDTH - 50, MainFrame.FRAME_HEIGHT - 80, 40, 40);
 
         board = new GraphicalBoard(defaultBoardH);
         balls = new ArrayList<>();
         graphicalPrizes = new ArrayList<>();
         graphicalBlocks = new ArrayList<>();
-    }
-
-    public void configureButton(ActionListener listener, int x, int y, int w, int h) {
-        JButton btn = new JButton();
-        btn.setOpaque(false);
-        btn.setContentAreaFilled(false);
-        btn.setBorderPainted(false);
-        btn.setBounds(x, y, w, h);
-        btn.addActionListener(listener);
-        btn.setFocusable(false);
-        this.add(btn);
     }
 
     public void paintGameOver() {
@@ -127,9 +99,5 @@ public class GamePanel extends JPanel {
             graphicalBlock.paint(g2d);
         for (GraphicalPrize graphicalPrize: graphicalPrizes)
             graphicalPrize.paint(g2d);
-        g2d.drawImage(pauseImg, 5, MainFrame.FRAME_HEIGHT - 80, null);
-        g2d.drawImage(restartImg, 50, MainFrame.FRAME_HEIGHT - 85, null);
-        g2d.drawImage(saveImg, 95, MainFrame.FRAME_HEIGHT - 80, null);
-        g2d.drawImage(exitImg, MainFrame.FRAME_WIDTH - 50, MainFrame.FRAME_HEIGHT - 80, null);
     }
 }

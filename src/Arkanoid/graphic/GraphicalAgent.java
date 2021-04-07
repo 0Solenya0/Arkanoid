@@ -151,7 +151,7 @@ public class GraphicalAgent {
                 timer.cancel();
                 timer.purge();
                 timer = new Timer();
-                logicalAgent.gameOver();
+                logicalAgent.gameOver(false);
                 gamePanel.paintGameOver();
                 frame.repaint();
                 try {
