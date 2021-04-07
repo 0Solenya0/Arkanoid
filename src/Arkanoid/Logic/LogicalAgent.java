@@ -52,7 +52,7 @@ public class LogicalAgent implements KeyListener {
                 checkLogic();
                 gameState.addRow -= 10;
             }
-        }, 0, 10);
+        }, 0, 20);
         gameState.start();
     }
 

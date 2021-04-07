@@ -26,7 +26,7 @@ public class Task implements Savable<Task> {
             public void run() {
                 taskFunction();
             }
-        }, 0, 10);
+        }, 0, 20);
     }
 
     public void taskFunction() {
@@ -56,7 +56,7 @@ public class Task implements Savable<Task> {
                 public void run() {
                     taskFunction();
                 }
-            }, 0, 10);
+            }, 0, 20);
         }
     }
 

@@ -78,7 +78,7 @@ public class Ball extends Model implements Savable<Ball> {
             public void run() {
                 move(10);
             }
-        }, 0, 10);
+        }, 0, 20);
         taskNormalizeFire.resume();
         taskNormalizeSpeed.resume();
     }

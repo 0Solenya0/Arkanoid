@@ -143,10 +143,11 @@ public class GraphicalAgent {
                 gamePanel.paintGameOver();
                 frame.repaint();
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                logicalAgent = new LogicalAgent();
                 frame.remove(gamePanel);
                 frame.removeKeyListener(logicalAgent);
                 frame.invalidate();
