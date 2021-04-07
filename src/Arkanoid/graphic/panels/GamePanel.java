@@ -65,7 +65,7 @@ public class GamePanel extends JPanel {
         }
         catch (Exception e) { }
 
-        board = new GraphicalBoard(0, defaultBoardH);
+        board = new GraphicalBoard(defaultBoardH);
         balls = new ArrayList<>();
         graphicalPrizes = new ArrayList<>();
         graphicalBlocks = new ArrayList<>();

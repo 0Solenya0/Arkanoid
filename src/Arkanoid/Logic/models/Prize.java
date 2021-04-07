@@ -10,7 +10,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Prize extends Model implements Savable<Prize> {
-    public static final int defaultWidth = 10, defaultHeight = 10;
+    public static final int defaultWidth = 20, defaultHeight = 20;
 
     Timer timer = new Timer();
     private int x, y, w = defaultWidth, h = defaultHeight;

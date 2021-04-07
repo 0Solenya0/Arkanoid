@@ -1,30 +1,27 @@
 package Arkanoid.graphic.models;
 
+import Arkanoid.Logic.models.Ball;
 import Arkanoid.Logic.models.Board;
 import Arkanoid.Logic.models.Model;
+import Arkanoid.graphic.util.ImageLoader;
 
 import java.awt.*;
 
 public class GraphicalBoard extends GraphicalModel {
-    private int x, length;
+
+    Board board;
     private final int y;
 
-    public GraphicalBoard(int x, int y) {
-        this.x = x;
+    public GraphicalBoard(int y) {
         this.y = y;
-        this.length = Board.defaultLength;
     }
 
     public void updateState(Model model) {
-        Board board = (Board) model;
-        this.x = board.getX();
-        this.length = board.getLength();
+        board = (Board) model;
     }
 
     @Override
     public void paint(Graphics2D g) {
-        g.setColor(Color.WHITE);
-        g.drawRect(x, y, length,20);
-        g.fillRect(x, y, length, 20);
+        g.drawImage(ImageLoader.getImage("red_board.png", board.getLength(), 20), board.getX(), y, null);
     }
 }
