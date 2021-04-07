@@ -54,7 +54,7 @@ public class Player implements Savable<Player> {
             for (int i = 0; i <= Objects.requireNonNull(dataSRC.list()).length; i++) {
                 if (new File(dataSRC.getPath() + "/" + i).exists()) {
                     player.load(new File(dataSRC.getPath() + "/" + i));
-                    if (player.name.equals(name))
+                    if (player.name.equals(name) || (name.isEmpty() && player.name.equals("Anonymous")))
                         return player;
                 }
             }
