@@ -69,7 +69,13 @@ public class GraphicalAgent {
     }
 
     public void loadGame() {
-        loadPanel = new LoadPanel();
+        loadPanel = new LoadPanel(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                frame.remove(loadPanel);
+                showMenu();
+            }
+        });
         frame.add(loadPanel);
         frame.setSize(new Dimension(MainFrame.FRAME_WIDTH, LoadPanel.LOADPANELH));
         frame.repaint();
@@ -88,7 +94,13 @@ public class GraphicalAgent {
     }
 
     public void scoreboard() {
-        scoreBoardPanel = new ScoreBoardPanel();
+        scoreBoardPanel = new ScoreBoardPanel(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                frame.remove(scoreBoardPanel);
+                showMenu();
+            }
+        });
         frame.add(scoreBoardPanel);
         frame.setSize(new Dimension(MainFrame.FRAME_WIDTH, ScoreBoardPanel.SCOREBOARDPANELH));
         frame.repaint();

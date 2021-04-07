@@ -5,6 +5,7 @@ import Arkanoid.Logic.GameState;
 import Arkanoid.Logic.Player;
 import Arkanoid.graphic.MainFrame;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,7 +20,9 @@ public class ScoreBoardPanel extends JPanel implements ActionListener {
     public ArrayList<Listener> listeners;
     JLabel label;
 
-    public ScoreBoardPanel() {
+    Image exitImg;
+
+    public ScoreBoardPanel(ActionListener exitActionListener) {
         super();
         listeners = new ArrayList<>();
         this.setLayout(null);
@@ -30,6 +33,16 @@ public class ScoreBoardPanel extends JPanel implements ActionListener {
         label.setForeground(Color.WHITE);
         label.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
         label.setBounds(10, 10,380, 30);
+
+        configureButton(exitActionListener, MainFrame.FRAME_WIDTH - 50, ScoreBoardPanel.SCOREBOARDPANELH - 80, 40, 40);
+
+        try {
+            exitImg = ImageIO.read(new File("./resources/exit.png"));
+            exitImg = exitImg.getScaledInstance(40, 40, Image.SCALE_DEFAULT);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
         int cnt = Objects.requireNonNull(Player.dataSRC.list()).length;
         int num = 0;
@@ -52,6 +65,17 @@ public class ScoreBoardPanel extends JPanel implements ActionListener {
         this.add(label);
     }
 
+    public void configureButton(ActionListener listener, int x, int y, int w, int h) {
+        JButton btn = new JButton();
+        btn.setOpaque(false);
+        btn.setContentAreaFilled(false);
+        btn.setBorderPainted(false);
+        btn.setBounds(x, y, w, h);
+        btn.addActionListener(listener);
+        btn.setFocusable(false);
+        this.add(btn);
+    }
+
     public void addListener(Listener listener) {
         listeners.add(listener);
     }
@@ -61,6 +85,13 @@ public class ScoreBoardPanel extends JPanel implements ActionListener {
         ArrayList<Listener> listeners1 = new ArrayList<>(listeners);
         for (Listener listener : listeners1)
             listener.listen(Events.BACK.toString());
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.drawImage(exitImg, MainFrame.FRAME_WIDTH - 50, SCOREBOARDPANELH - 80, null);
     }
 
     public enum Events {

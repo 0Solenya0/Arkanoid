@@ -40,7 +40,6 @@ public class Ball extends Model implements Savable<Ball> {
             baseXSpeed *= 1.1;
             baseYSpeed *= 1.1;
         }
-        System.out.println(baseXSpeed);
     }
 
     public boolean bounceIfCollide(Block b) {
