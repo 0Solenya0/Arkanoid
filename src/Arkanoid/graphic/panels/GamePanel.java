@@ -47,7 +47,7 @@ public class GamePanel extends JPanel {
             pauseImg = ImageIO.read(new File("./resources/pause.png"));
             pauseImg = pauseImg.getScaledInstance(40, 40, Image.SCALE_DEFAULT);
             restartImg = ImageIO.read(new File("./resources/restart.png"));
-            restartImg = restartImg.getScaledInstance(40, 40, Image.SCALE_DEFAULT);
+            restartImg = restartImg.getScaledInstance(40, 50, Image.SCALE_DEFAULT);
             saveImg = ImageIO.read(new File("./resources/save.png"));
             saveImg = saveImg.getScaledInstance(40, 40, Image.SCALE_DEFAULT);
         }
@@ -115,7 +115,7 @@ public class GamePanel extends JPanel {
         for (GraphicalPrize graphicalPrize: graphicalPrizes)
             graphicalPrize.paint(g2d);
         g2d.drawImage(pauseImg, 5, MainFrame.FRAME_HEIGHT - 80, null);
-        g2d.drawImage(restartImg, 50, MainFrame.FRAME_HEIGHT - 80, null);
+        g2d.drawImage(restartImg, 50, MainFrame.FRAME_HEIGHT - 85, null);
         g2d.drawImage(saveImg, 95, MainFrame.FRAME_HEIGHT - 80, null);
     }
 }
