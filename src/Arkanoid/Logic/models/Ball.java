@@ -15,9 +15,9 @@ public class Ball extends Model implements Savable<Ball> {
     private final Task taskNormalizeSpeed = new Task(this::setSpeedToNormal);
     private final Task taskNormalizeFire = new Task(this::setOnFireToNormal);
 
-    private double baseXSpeed = 1, baseYSpeed = 1;
+    private double baseMag = 1;
     Timer timerMovement = new Timer();
-    private double xSpeed = 1, ySpeed = -1;
+    private double xSpeed = Math.sqrt(2) / 2, ySpeed = -Math.sqrt(2) / 2, Mag = 1.4;
     private double prvx, prvy, x, y;
     public Listener listener;
     private int w, h;
@@ -33,12 +33,10 @@ public class Ball extends Model implements Savable<Ball> {
     }
 
     public void updateBaseSpeed(int age) {
-        baseXSpeed = 1;
-        baseYSpeed = 1;
+        baseMag = 1;
         while (age > 0) {
             age -= 15000;
-            baseXSpeed *= 1.1;
-            baseYSpeed *= 1.1;
+            baseMag *= 1.1;
         }
     }
 
@@ -66,17 +64,13 @@ public class Ball extends Model implements Savable<Ball> {
             xSpeed *= -1;
         if (y < 0 && ySpeed < 0)
             ySpeed *= -1;
-        if (y + h > GamePanel.defaultBoardH + 20 && ySpeed > 0) {
-            ySpeed *= -1;
-            delete();
-        }
     }
 
     public void move(double ms) {
         prvx = x;
         prvy = y;
-        x += ms * xSpeed * baseXSpeed / 10;
-        y += ms * ySpeed * baseYSpeed / 10;
+        x += ms * xSpeed * baseMag * Mag / 10;
+        y += ms * ySpeed * baseMag * Mag / 10;
         Bounce();
     }
 
@@ -104,14 +98,12 @@ public class Ball extends Model implements Savable<Ball> {
     public void usePrize(Prize.PrizeType prize) {
         if (prize.equals(Prize.PrizeType.FASTBALL)) {
             setSpeedToNormal();
-            xSpeed *= 2;
-            ySpeed *= 2;
+            Mag *= 2;
             taskNormalizeSpeed.renewTask(6000);
         }
         if (prize.equals(Prize.PrizeType.SLOWBALL)) {
             setSpeedToNormal();
-            xSpeed *= 0.5;
-            ySpeed *= 0.5;
+            Mag *= 0.5;
             taskNormalizeSpeed.renewTask(4000);
         }
         if (prize.equals(Prize.PrizeType.FIREBALL)) {
@@ -125,8 +117,7 @@ public class Ball extends Model implements Savable<Ball> {
     }
 
     public void setSpeedToNormal() {
-        xSpeed /= Math.abs(xSpeed);
-        ySpeed /= Math.abs(ySpeed);
+        Mag = 1.4;
     }
 
     public void delete() {
@@ -153,6 +144,14 @@ public class Ball extends Model implements Savable<Ball> {
         return xSpeed;
     }
 
+    public void setySpeed(double ySpeed) {
+        this.ySpeed = ySpeed;
+    }
+
+    public double getySpeed() {
+        return ySpeed;
+    }
+
     public void setxSpeed(double xSpeed) {
         this.xSpeed = xSpeed;
     }
@@ -165,7 +164,8 @@ public class Ball extends Model implements Savable<Ball> {
                 w + " " + h + "\n" +
                 isOnFire + "\n" +
                 taskNormalizeFire.serialize() + "\n" +
-                taskNormalizeSpeed.serialize() + "\n";
+                taskNormalizeSpeed.serialize() + "\n" +
+                Mag + "\n";
         return res;
     }
 
@@ -182,6 +182,7 @@ public class Ball extends Model implements Savable<Ball> {
         isOnFire = serialized.nextBoolean();
         taskNormalizeFire.deserialize(serialized);
         taskNormalizeSpeed.deserialize(serialized);
+        Mag = serialized.nextDouble();
     }
 
     public enum Events {

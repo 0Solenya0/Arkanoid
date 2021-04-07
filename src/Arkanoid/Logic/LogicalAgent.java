@@ -99,7 +99,8 @@ public class LogicalAgent implements KeyListener {
     }
 
     public void checkBallLogic() {
-        for (Ball ball: gameState.getBalls()) {
+        ArrayList<Ball> balls1 = new ArrayList<>(gameState.getBalls());
+        for (Ball ball: balls1) {
             ball.updateBaseSpeed(gameState.age);
             ArrayList<Block> blocks = new ArrayList<>(gameState.getBlocks());
             for (Block block: blocks) {
@@ -111,6 +112,21 @@ public class LogicalAgent implements KeyListener {
                         gameState.addScore(10);
                     }
                 }
+            }
+            double len = gameState.getBoard().getLength(), x = gameState.getBoard().getX();
+            if (ball.getY() + Ball.defaultH > GamePanel.defaultBoardH) {
+                   if (x <= ball.getX() + Ball.defaultW && ball.getX() <= x + len) {
+                       double mid = x + len / 2;
+                       double alpha = Math.atan(Math.abs(ball.getxSpeed() / ball.getySpeed()));
+                       double beta = alpha / (len / 2) * Math.abs(mid - ball.getX());
+                       double reflect = Math.PI / 2 - beta;
+                       if (Math.abs(mid - (ball.getX() + Ball.defaultW / 2)) > len * 3 / 8)
+                           reflect = Math.PI / 4;
+                       ball.setxSpeed(Math.cos(reflect) * ball.getxSpeed() / Math.abs(ball.getxSpeed()));
+                       ball.setySpeed(-Math.sin(reflect));
+                   }
+                   else
+                        ball.delete();
             }
         }
         if (gameState.getBalls().isEmpty()) {
