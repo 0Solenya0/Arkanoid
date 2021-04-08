@@ -88,10 +88,15 @@ public class GamePanel extends ExtendedPanel {
         }
         images.clear();
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 30; i++) {
             Random random = new Random();
             addImage(ImageLoader.getImage("star.png", 20, 20), random.nextInt(400),
                     random.nextInt(600), 20, 20);
+        }
+        for (int i = 0; i < 10; i++) {
+            Random random = new Random();
+            addImage(ImageLoader.getImage("star2.png", 10, 10), random.nextInt(400),
+                    random.nextInt(600), 10, 10);
         }
 
         for (int i = 0; i < state.getPlayerLives(); i++)
