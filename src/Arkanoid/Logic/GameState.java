@@ -18,6 +18,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class GameState implements Savable<GameState> {
+    Random random = new Random();
     public static File dataSRC = new File("./db/games/");
     private Player player;
     private Board board;
@@ -94,13 +95,29 @@ public class GameState implements Savable<GameState> {
             block.shiftDown();
         for (int i = 0; i < 6; i++) {
             Block block;
-            if (i < 3)
-                block = new PrizeBlock(12 + i * 15 + i * Block.defaultWidth, Block.YSHIFT, Prize.PrizeType.RANDOM);
-            else {
-                block = new FlashingBlock(12 + i * 15 + i * Block.defaultWidth, Block.YSHIFT);
-                block.resume();
+            int x = 12 + i * 15 + i * Block.defaultWidth;
+            int y = Block.YSHIFT, r = random.nextInt(5);
+            switch (r) {
+                case 0:
+                    block = new FlashingBlock(x, y);
+                    break;
+                case 1:
+                    block = new GlassBlock(x, y);
+                    break;
+                case 2:
+                    block = new InvisibleBlock(x, y);
+                    break;
+                case 3:
+                    block = new PrizeBlock(x, y, Prize.PrizeType.RANDOM);
+                    break;
+                case 4:
+                    block = new WoddenBlock(x, y);
+                    break;
+                default:
+                    block = new GlassBlock(x, y);
             }
             addBlock(block);
+            block.resume();
         }
     }
 
