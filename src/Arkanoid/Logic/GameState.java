@@ -96,8 +96,10 @@ public class GameState implements Savable<GameState> {
             Block block;
             if (i < 3)
                 block = new PrizeBlock(12 + i * 15 + i * Block.defaultWidth, Block.YSHIFT, Prize.PrizeType.RANDOM);
-            else
+            else {
                 block = new FlashingBlock(12 + i * 15 + i * Block.defaultWidth, Block.YSHIFT);
+                block.resume();
+            }
             addBlock(block);
         }
     }

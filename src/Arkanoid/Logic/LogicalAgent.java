@@ -111,6 +111,7 @@ public class LogicalAgent implements KeyListener {
                         block.ballHit();
                         gameState.addScore(10);
                     }
+                    break;
                 }
             }
             double len = gameState.getBoard().getLength(), x = gameState.getBoard().getX();
